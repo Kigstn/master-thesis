@@ -1,0 +1,13 @@
+asgiref==3.3.4
+fastapi==0.65.2
+h11==0.12.0
+itsdangerous==1.1.0
+Jinja2==2.11.3
+MarkupSafe==1.1.1
+pip==21.0.1
+pydantic==1.8.2
+setuptools==56.0.0
+starlette==0.14.2
+typing-extensions==3.10.0.0
+uvicorn==0.14.0
+Werkzeug==1.0.1
