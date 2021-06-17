@@ -42,7 +42,7 @@ def get_use_case(con: sqlite3.Connection, user_id: str) -> dict:
             })
 
         # if it has been (at least partially) completed by the user, check if the second part has also been completed. If not, that one has high priority and need to be done first
-        elif [use_case_id, 2] not in user_use_case_completion_status:
+        elif (use_case_id, 2) not in user_use_case_completion_status:
             return {
                 "use_case_id": use_case_id,
                 "use_case_step": 2,
