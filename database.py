@@ -14,6 +14,12 @@ def create_db_tables(con: sqlite3.Connection):
             (user_id TEXT, use_case_id SMALLINT, use_case_step SMALLINT, user_emotion JSON, datetime TIMESTAMP WITH TIME ZONE, PRIMARY KEY (user_id, use_case_id, use_case_step));
     """)
 
+    con.execute("""
+        CREATE TABLE
+            emails
+            (user_id TEXT PRIMARY KEY, email TEXT);
+    """)
+
 
 # get a use case the user hasn't done before and the use case step
 def get_use_case(con: sqlite3.Connection, user_id: str) -> dict:
@@ -49,7 +55,7 @@ def get_use_case(con: sqlite3.Connection, user_id: str) -> dict:
             }
 
     # return a random use case
-    return random.choice(to_do_use_cases)
+    return random.choice(to_do_use_cases) if to_do_use_cases else None
 
 
 # returns the number of use cases the user has fully completed
@@ -116,3 +122,23 @@ def update_db_user(con: sqlite3.Connection, user_id: str, use_case_id: int, use_
     cur.execute(insert_sql, (user_id, use_case_id, use_case_step, json.dumps(user_emotion), time, ))
     con.commit()
 
+
+# inserts a users email, or changes it
+def update_email(con: sqlite3.Connection, user_id: str, email: str) -> None:
+    cur = con.cursor()
+
+    insert_sql = """
+        INSERT INTO 
+            emails 
+            (user_id, email)
+        VALUES
+            (?, ?)        
+        ON 
+            CONFLICT 
+                (user_id)
+        DO 
+            UPDATE SET
+                email = ?;
+    """
+    cur.execute(insert_sql, (user_id, email, email, ))
+    con.commit()

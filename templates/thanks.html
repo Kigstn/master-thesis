@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="container-fluid">
+        <img class="img-responsive rounded" src="{{ url_for('static', path='/thanks.png') }}" alt="Danke">
+    </div>
+    <p> Herzlichen Dank für Ihre Teilnahme an diesem Experiment!</p>
+    <p> Wenn Sie Fragen oder Anmerkungen haben, schreiben Sie mir gerne eine Email. Meine Adresse finden Sie am unteren Rand der Website.</p>
+    <br>
+    <h3> Gewinnspiel </h3>
+    <p> Die Teilnehmer die alle Teile des Experimentes bearbeitet haben, können an einem Gewinnspiel teilnehmen.</p>
+    <p> Verlost werden fünf Amazon Gutscheine im Wert von jeweils 10€. Wenn Sie an der Verlosung teilnehmen wollen, geben Sie bitte Ihre Email Addresse an.</p>
+    <hr>
+    <form action="/giveawayemail" method="post">
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email Adresse</label>
+            <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text">Ihre Email wird nach der Verlosung sofort gelöscht und zu keinen anderem Zweck verwendet</div>
+        </div>
+        <button type="submit" class="btn btn-dark">Teilnehmen</button>
+    </form>
+
+    <!-- Toast that fires if email has been updated -->
+    {% if email_saved %}
+        <div class="position-fixed top-0 end-0 p-3 align-items-center" style="z-index: 100000; margin-top: 50px;">
+            <div class="toast hide bg-success" role="alert" aria-live="polite" aria-atomic="true">
+                <div class="d-flex text-dark fw-bold">
+                    <div class="toast-body">
+                        Email wurde aktualisiert!
+                    </div>
+                    <button type="button" class="btn-close btn-close-dark me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function() {
+                $(".toast").toast('show');
+            });
+        </script>
+    {% endif %}
+</div>
+
+
+{% endblock %}

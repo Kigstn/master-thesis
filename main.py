@@ -4,21 +4,21 @@ from typing import Optional
 import uvicorn
 import sqlite3
 import os
-import json
 
-from fastapi import Request, Cookie, FastAPI
+from fastapi import Request, Cookie, FastAPI, Form
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException
 from starlette.responses import RedirectResponse
 from starlette.staticfiles import StaticFiles
-from urllib.parse import urlencode, unquote, quote
+from urllib.parse import urlencode
 
 from cookie import set_cookie
 from errors import http_exceptions_handler, request_validation_error_handler
-from database import get_use_case, update_db_user, get_number_of_completed_use_cases, user_is_new, create_db_tables
-from config import use_case_dict, limesurvey_url
+from database import get_use_case, update_db_user, get_number_of_completed_use_cases, user_is_new, create_db_tables, \
+    update_email
+from config import use_case_dict, limesurvey_url, limesurvey_user_info_url
 
 # create and load the DB. Using sqlite3 since that's the easiest IMO
 db_name = 'user_data.db'
@@ -61,7 +61,9 @@ async def root(request: Request, user_id: Optional[str] = Cookie(None)):
     # get a random use case to show the user
     use_case_info = get_use_case(con, user_id)
 
-    # todo if there are no more use cases, redirect to thank you site
+    # if not more use cases are to be done
+    if not use_case_info:
+        return RedirectResponse("/thanks", status_code=303)
 
     # check if the user is new (has not completed a single use case step)
     if user_is_new(con, user_id):
@@ -93,10 +95,11 @@ async def guide(request: Request, use_case_id: int, use_case_step: int, user_id:
 
     guide_text = "temp"
 
-    # define params needed to build the /usecase link later
+    # define params needed to build the link to the limesurvey user data collection
     params = {
-        "use_case_id": use_case_id,
-        "use_case_step": use_case_step,
+        "userid": user_id,
+        "usecaseid": use_case_id,
+        "usecasestep": use_case_step,
     }
 
     return templates.TemplateResponse("guide.html", {
@@ -105,13 +108,17 @@ async def guide(request: Request, use_case_id: int, use_case_step: int, user_id:
         "use_case_count": len(use_case_dict),
         "use_case_count_current": get_number_of_completed_use_cases(con, user_id),
         "guide_text": guide_text,
-        "use_case_url": f"/usecase?{urlencode(params)}",
+        "use_case_url": f"{limesurvey_user_info_url}?{urlencode(params)}",
     })
 
 
 # show the user a use case
 @app.get('/usecase')
-async def use_case(request: Request, use_case_id: int, use_case_step: int, progress_saved: bool = False, user_id: str = Cookie(None)):
+async def use_case(request: Request, use_case_id: int, use_case_step: int, progress_saved: bool = False, from_limesurvey_user_data_collection: bool = False, user_id: str = Cookie(None)):
+    # if user comes from the user data collection aka limesurvey, save their id in the DB with use_case_id = 0
+    if from_limesurvey_user_data_collection:
+        update_db_user(con, user_id, 0, None, None, datetime.datetime.now(tz=datetime.timezone.utc))
+
     # todo get the user emotion if not specified
 
     # todo special behaviour is the seond use case step is given
@@ -139,10 +146,8 @@ async def use_case(request: Request, use_case_id: int, use_case_step: int, progr
         "use_case_count_current": get_number_of_completed_use_cases(con, user_id),
         "use_case_text": use_case_dict[use_case_id],
         "limesurvey_url": f"{limesurvey_url}?{urlencode(limesurvey_params)}",
-        "saved": progress_saved,
+        "saved": bool(progress_saved or from_limesurvey_user_data_collection),
     })
-
-    # https://limesurvey.rz.tu-bs.de/index.php/742517?newtest=Y&lang=de&userid=asdsbxdfsdf&usecaseid=1&usecasestep=1&usecaseresponse=asghdgasldhgaszhjdg&nextresponse=jasdhjasöd
 
 
 # use this url to redirect the limesurvey results
@@ -171,9 +176,11 @@ async def limesurvey(user_id: str, use_case_id: int, use_case_step: int, user_em
 
     # if yes, get a new use case and start over
     else:
-        # todo if there are no more use cases, redirect to thank you site
-
         use_case_info = get_use_case(con, user_id)
+
+        # if not more use cases are to be done
+        if not use_case_info:
+            return RedirectResponse("/thanks", status_code=303)
 
         params = {
             "use_case_id": use_case_info["use_case_id"],
@@ -182,6 +189,34 @@ async def limesurvey(user_id: str, use_case_id: int, use_case_step: int, user_em
         }
         redirect_path = f"/usecase?{urlencode(params)}"
 
+    return RedirectResponse(redirect_path, status_code=303)
+
+
+# set a new cookie with a new ID and redirects to home. Mostly used for testing
+@app.get('/thanks', response_class=HTMLResponse)
+async def thanks(request: Request, user_id: str = Cookie(None), email_saved: bool = False):
+    # todo if there are no more use cases, redirect to thank you site
+    # todo maybe ask for mail to participate in giveaway or sth
+    return templates.TemplateResponse("thanks.html", {
+        "request": request,
+        "user_id": user_id,
+        "use_case_count": len(use_case_dict),
+        "use_case_count_current": get_number_of_completed_use_cases(con, user_id),
+        "email_saved": email_saved,
+    })
+
+
+# saves / update the users giveaway email and returns them to the thanks you site with a toast
+@app.post('/giveawayemail')
+async def save_email(email: str = Form(...), user_id: str = Cookie(None)):
+    # update email
+    update_email(con, user_id, email)
+
+    # direct them back
+    params = {
+        "email_saved": True,
+    }
+    redirect_path = f"/thanks?{urlencode(params)}"
     return RedirectResponse(redirect_path, status_code=303)
 
 
