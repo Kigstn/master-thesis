@@ -2,11 +2,7 @@ import datetime
 import sqlite3
 import random
 
-
-use_case_dict = {
-    1: "ich bin use case 1",
-    2: "ich bin use case zweiiiiiiiii",
-}
+from config import use_case_dict
 
 
 # get a use case the user hasn't done before and the use case step

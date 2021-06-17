@@ -16,7 +16,8 @@ from urllib.parse import urlencode, unquote, quote
 
 from cookie import set_cookie
 from errors import http_exceptions_handler, request_validation_error_handler
-from database import get_use_case, use_case_dict, update_db_user, get_number_of_completed_use_cases
+from database import get_use_case, update_db_user, get_number_of_completed_use_cases
+from config import use_case_dict, limesurvey_url
 
 # create and load the DB. Using sqlite3 since that's the easiest IMO
 db_name = 'user_data.db'
@@ -77,34 +78,37 @@ async def root(request: Request, user_id: Optional[str] = Cookie(None)):
 @app.get('/usecase')
 async def use_case(request: Request, use_case_id: int, use_case_step: int, progress_saved: bool = False,
                    user_id: str = Cookie(None)):
-    # todo make cool popup that results were saved
-    if progress_saved:
-        pass
+    # todo guide how this works if the user is new. Maybe with carousel?
+    # https://getbootstrap.com/docs/5.0/components/carousel/
 
     # todo get the user emotion if not specified
 
     # todo special behaviour is the seond use case step is given
 
     use_case_response = "abc"
+    next_response = "def"
     user_emotion = {}
+
+    limesurvey_params = {
+        "newtest": "Y",
+        "lang": "de",
+        "userid": user_id,
+        "usecaseid": use_case_id,
+        "usecasestep": use_case_step,
+        "usecaseresponse": use_case_response,
+        "useremotion": user_emotion,
+        "nextresponse": next_response,
+    }
 
     return templates.TemplateResponse("use_case.html", {
         "request": request,
         "user_id": user_id,
         "use_case_count": len(use_case_dict),
-        "use_case_count_current": a,
+        "use_case_count_current": get_number_of_completed_use_cases(con, user_id),
         "use_case_text": use_case_dict[use_case_id],
-        "use_case_id": use_case_id,
-        "use_case_step": use_case_step,
-        "use_case_response": use_case_response,
-        "user_emotion": user_emotion,
+        "limesurvey_url": f"{limesurvey_url}?{urlencode(limesurvey_params)}",
         "saved": progress_saved
     })
-
-    # todo call limesurvey twice. First with emotion based response, sencond without
-    # todo for that, first call limesurvey, then call a redirect url, that redirect back to limesurvey if the use_case_step is 1
-
-    # todo set cookie with id and overview which usecases are still missing
 
     # https://limesurvey.rz.tu-bs.de/index.php/742517?newtest=Y&lang=de&userid=asdsbxdfsdf&usecaseid=1&usecasestep=1&usecaseresponse=asghdgasldhgaszhjdg&nextresponse=jasdhjasöd
 
@@ -131,7 +135,7 @@ async def limesurvey(user_id: str, use_case_id: int, use_case_step: int, user_em
             "useremotion": quote(str(user_emotion)),
             "nextresponse": None,
         }
-        redirect_path = f"https://limesurvey.rz.tu-bs.de/index.php/742517?{urlencode(params)}"
+        redirect_path = f"{limesurvey_url}?{urlencode(params)}"
 
     # if yes, get a new use case and start over
     else:
