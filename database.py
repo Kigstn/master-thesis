@@ -5,6 +5,15 @@ import random
 from config import use_case_dict
 
 
+# creates the db tables. Gets called when there is no existing DB
+def create_db_tables(con: sqlite3.Connection):
+    con.execute("""
+        CREATE TABLE
+            use_cases
+            (user_id TEXT, use_case_id SMALLINT, use_case_step SMALLINT, user_emotion JSON, datetime TIMESTAMP WITH TIME ZONE, PRIMARY KEY (user_id, use_case_id, use_case_step));
+    """)
+
+
 # get a use case the user hasn't done before and the use case step
 def get_use_case(con: sqlite3.Connection, user_id: str) -> dict:
     cur = con.cursor()

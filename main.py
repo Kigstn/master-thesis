@@ -16,7 +16,7 @@ from urllib.parse import urlencode, unquote, quote
 
 from cookie import set_cookie
 from errors import http_exceptions_handler, request_validation_error_handler
-from database import get_use_case, update_db_user, get_number_of_completed_use_cases, user_is_new
+from database import get_use_case, update_db_user, get_number_of_completed_use_cases, user_is_new, create_db_tables
 from config import use_case_dict, limesurvey_url
 
 # create and load the DB. Using sqlite3 since that's the easiest IMO
@@ -26,11 +26,7 @@ con = sqlite3.connect(db_name)
 
 # add table to db if first start
 if first_start:
-    con.execute("""
-        CREATE TABLE
-            use_cases
-            (user_id TEXT, use_case_id SMALLINT, use_case_step SMALLINT, user_emotion JSON, datetime TIMESTAMP WITH TIME ZONE, PRIMARY KEY (user_id, use_case_id, use_case_step));
-    """)
+    create_db_tables(con)
 
 # mount the webserver to /static
 app = FastAPI()
