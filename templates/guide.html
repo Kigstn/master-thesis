@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <h3> Anleitung </h3>
+    <p> {{ guide_text }} </p>
+    <div class="d-flex justify-content-center" style="margin-top: 50px">
+        <a class="btn btn-dark btn-lg" href="{{ use_case_url }}" type="button">
+            Weiter
+        </a>
+    </div>
+</div>
+
+
+{% endblock %}

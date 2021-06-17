@@ -75,6 +75,23 @@ def get_number_of_completed_use_cases(con: sqlite3.Connection, user_id: str) -> 
     return cur.fetchone()[0]
 
 
+# checks if the user has completed a single use case step
+def user_is_new(con: sqlite3.Connection, user_id: str) -> bool:
+    cur = con.cursor()
+
+    # get use cases for user and their completion status
+    select_sql = """
+        SELECT 
+            *
+        FROM 
+            use_cases
+        WHERE 
+            user_id = ?;
+    """
+    cur.execute(select_sql, (user_id, ))
+    return not bool(cur.fetchone())
+
+
 # inserts a user and their use case status into the DB
 def update_db_user(con: sqlite3.Connection, user_id: str, use_case_id: int, use_case_step: int, user_emotion: dict, time: datetime.datetime) -> None:
     cur = con.cursor()
