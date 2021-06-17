@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <h3> Use Case </h3>
+    <p> {{ use_case_text }} </p>
+    <div class="d-flex justify-content-center" style="margin-top: 50px">
+        <a class="btn btn-dark btn-lg" href="https://limesurvey.rz.tu-bs.de/index.php/742517/?newtest=Y&lang=de&userid={{ user_id }}&usecaseid={{ use_case_id }}&usecasestep={{ use_case_step }}&usecaseresponse={{ use_case_response }}&useremotion={{ user_emotion }}" type="button">
+            Weiter
+        </a>
+    </div>
+</div>
+
+<!-- Toast that fire if use case has been completed -->
+{% if saved %}
+    <div class="position-fixed top-0 end-0 p-3 align-items-center" style="z-index: 100000; margin-top: 50px;">
+        <div class="toast hide bg-success" role="alert" aria-live="polite" aria-atomic="true">
+            <div class="d-flex text-dark fw-bold">
+                <div class="toast-body">
+                    Fortschritt wurde gespeichert!
+                </div>
+                <button type="button" class="btn-close btn-close-dark me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $(".toast").toast('show');
+        });
+    </script>
+{% endif %}
+
+{% endblock %}

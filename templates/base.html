@@ -1,29 +1,55 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-    <title>Umfrage Masterarbeit</title>
+    <head>
+        <title>Umfrage Masterarbeit</title>
 
-    <!-- Bootstrap 4 CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <!-- Bootstrap 5 CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 
-    <!-- Own CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
-</head>
+        <!-- JQuery -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
 
-<body style="margin-top: 100px">
-    <!-- Navbar at top -->
-    <nav class="navbar fixed-top navbar-dark bg-dark justify-content-center">
-        <a class="nav-link" href="/">Home</a>
-    </nav>
+        <!-- Own CSS -->
+        <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
+    </head>
 
-    <!-- Placeholder for content depending on the path -->
-    {% block content %}{% endblock %}
+    <body style="margin-top: 100px">
+        <!-- Navbar at top -->
+        <nav class="navbar fixed-top navbar-dark bg-dark justify-content-between">
+            <!-- Home Page -->
+            <a class="navbar-brand navbar-id" href="/">
+                Startseite
+            </a>
 
-    <!-- Navbar at bottom with links to affiliates -->
-    <footer class="footer" style="margin-top: 50px">
-        <nav class="navbar bg-dark justify-content-center">
-            <div class="row justify-content-center">
+            <!-- Progress Bar -->
+            <span class="justify-content-center navbar-id">
+                <div class="navbar-text" style="font-size: 14px; padding-top: 0">
+                    Fortschritt: {{ use_case_count_current }} von {{ use_case_count }} Schritten fertig
+                </div>
+                <div class="progress" style="width: 300px">
+                    <div class="progress-bar use-case-progress progress-bar-striped" style="width: {{ (use_case_count_current / use_case_count) * 100 }}%" aria-valuenow="{{ use_case_count_current }}" aria-valuemin="0" aria-valuemax="{{ use_case_count }}" role="progressbar"></div>
+                </div>
+            </span>
+
+            <!-- User ID -->
+            <span class="justify-content-center navbar-id">
+                <span class="navbar-text" style="font-size: 14px; padding-bottom: 0;">
+                    Persönliche ID
+                </span>
+                <br>
+                <span class="navbar-text" style="font-size: 10px; padding-top: 0;">
+                    {{ user_id }}
+                </span>
+            </span>
+        </nav>
+
+        <!-- Placeholder for content depending on the path -->
+        {% block content %}{% endblock %}
+
+        <!-- Navbar at bottom with links to affiliates -->
+        <nav class="navbar bg-dark justify-content-center footer">
+            <div class="row">
                 <div class="col-md-auto">
                     <div class="hovereffect">
                         <img class="img-responsive rounded" src="{{ url_for('static', path='/tubs_logo.png') }}" height="50" alt="TU Braunschweig Logo">
@@ -48,8 +74,15 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-auto">
+                    <div class="hovereffect">
+                        <img class="img-responsive rounded" src="{{ url_for('static', path='/email_link.png') }}" height="50" alt="WI2 Logo">
+                        <div class="overlay">
+                           <a class="info" target="_blank" rel="noopener noreferrer" href="mailto:d.jaekel@tu-braunschweig.de">Kontakt</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </nav>
-    </footer>
-</body>
+    </body>
 </html>

@@ -3,15 +3,17 @@
 {% block content %}
 
 <div class="container">
-    <h1>Wilkommen!</h1>
-    <p> Vielen Dank für Ihre Teilnahme an dieses Experiment... Wilkommensworte halt</p>
+    <h1> Wilkommen! </h1>
+    <p> Vielen Dank für Ihre Teilnahme an dieses Experiment... Wilkommensworte halt </p>
     <p> Hier geht es um xxxxxxx </p>
     <br>
     <h3> Ablauf </h3>
     <p> Ja so so und so vllt auch noch test test 123 </p>
-    <a class="btn btn-primary" href="/test?user_id={{ user_id }}" type="button">
-        Drücke mich um mit dem Experiment zu starten!
-    </a>
+    <div class="d-flex justify-content-center" style="margin-top: 50px">
+        <a class="btn btn-dark btn-lg" href="/usecase?use_case_id={{ use_case_id }}&use_case_step={{ use_case_step }}" type="button">
+            Experiment starten!
+        </a>
+    </div>
 </div>
 
 {% endblock %}
