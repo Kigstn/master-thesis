@@ -195,8 +195,6 @@ async def limesurvey(user_id: str, use_case_id: int, use_case_step: int, user_em
 # set a new cookie with a new ID and redirects to home. Mostly used for testing
 @app.get('/thanks', response_class=HTMLResponse)
 async def thanks(request: Request, user_id: str = Cookie(None), email_saved: bool = False):
-    # todo if there are no more use cases, redirect to thank you site
-    # todo maybe ask for mail to participate in giveaway or sth
     return templates.TemplateResponse("thanks.html", {
         "request": request,
         "user_id": user_id,
