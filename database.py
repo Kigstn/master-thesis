@@ -1,6 +1,7 @@
 import datetime
 import sqlite3
 import random
+import json
 
 from config import use_case_dict
 
@@ -34,7 +35,7 @@ def get_use_case(con: sqlite3.Connection, user_id: str) -> dict:
     to_do_use_cases = []
     for use_case_id, use_case_description in use_case_dict.items():
         # check if use case has been (at least partially) completed by the user
-        if [use_case_id, 1] not in user_use_case_completion_status:
+        if (use_case_id, 1) not in user_use_case_completion_status:
             to_do_use_cases.append({
                 "use_case_id": use_case_id,
                 "use_case_step": 1,
@@ -112,6 +113,6 @@ def update_db_user(con: sqlite3.Connection, user_id: str, use_case_id: int, use_
         VALUES
             (?, ?, ?, ?, ?);
     """
-    cur.execute(insert_sql, (user_id, use_case_id, use_case_step, user_emotion, time, ))
+    cur.execute(insert_sql, (user_id, use_case_id, use_case_step, json.dumps(user_emotion), time, ))
     con.commit()
 

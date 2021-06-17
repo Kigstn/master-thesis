@@ -4,6 +4,7 @@ from typing import Optional
 import uvicorn
 import sqlite3
 import os
+import json
 
 from fastapi import Request, Cookie, FastAPI
 from fastapi.templating import Jinja2Templates
@@ -60,6 +61,8 @@ async def root(request: Request, user_id: Optional[str] = Cookie(None)):
     # get a random use case to show the user
     use_case_info = get_use_case(con, user_id)
 
+    # todo if there are no more use cases, redirect to thank you site
+
     # check if the user is new (has not completed a single use case step)
     if user_is_new(con, user_id):
         url = "/guide"
@@ -115,7 +118,7 @@ async def use_case(request: Request, use_case_id: int, use_case_step: int, progr
 
     use_case_response = "abc"
     next_response = "def"
-    user_emotion = {1: 2}
+    user_emotion = {1: 2, "asidajsd": "asdipojäasd"}
 
     # define params needed to build the limesurvey link later
     limesurvey_params = {
@@ -125,7 +128,7 @@ async def use_case(request: Request, use_case_id: int, use_case_step: int, progr
         "usecaseid": use_case_id,
         "usecasestep": use_case_step,
         "usecaseresponse": use_case_response,
-        "useremotion": user_emotion,
+        "useremotion": '|'.join([f"{i}:{j}" for i, j in user_emotion.items()]),     # convert the dict into a pure string because limesurvey doesnt like "{" in strings
         "nextresponse": next_response,
     }
 
@@ -145,8 +148,8 @@ async def use_case(request: Request, use_case_id: int, use_case_step: int, progr
 # use this url to redirect the limesurvey results
 @app.get('/limesurvey', response_class=HTMLResponse)
 async def limesurvey(user_id: str, use_case_id: int, use_case_step: int, user_emotion: str, next_response: str):
-    # convert user emotion back to a dict, since it is urlencoded
-    user_emotion = eval(unquote(user_emotion))
+    # convert user emotion back to a dict, since it is encoded
+    user_emotion = {j[0]: j[1] for j in [i.split(":") for i in user_emotion.split("|")]}
 
     # save progress in DB
     update_db_user(con, user_id, use_case_id, use_case_step, user_emotion, datetime.datetime.now(tz=datetime.timezone.utc))
@@ -161,13 +164,15 @@ async def limesurvey(user_id: str, use_case_id: int, use_case_step: int, user_em
             "usecaseid": use_case_id,
             "usecasestep": 2,
             "usecaseresponse": next_response,
-            "useremotion": quote(str(user_emotion)),
+            "useremotion": '|'.join([f"{i}:{j}" for i, j in user_emotion.items()]),     # convert the dict into a pure string because limesurvey doesnt like "{" in strings
             "nextresponse": None,
         }
         redirect_path = f"{limesurvey_url}?{urlencode(params)}"
 
     # if yes, get a new use case and start over
     else:
+        # todo if there are no more use cases, redirect to thank you site
+
         use_case_info = get_use_case(con, user_id)
 
         params = {
