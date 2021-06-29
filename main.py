@@ -18,7 +18,7 @@ from cookie import set_cookie
 from errors import http_exceptions_handler, request_validation_error_handler
 from database import get_use_case, update_db_user, get_number_of_completed_use_cases, user_is_new, create_db_tables, \
     update_email
-from config import use_case_dict, limesurvey_url, limesurvey_user_info_url
+from config import use_case_dict, limesurvey_url, limesurvey_user_info_url, emotions_dict
 
 # create and load the DB. Using sqlite3 since that's the easiest IMO
 db_name = 'user_data.db'
@@ -32,6 +32,7 @@ if first_start:
 # mount the webserver to /static
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/dist", StaticFiles(directory="dist"), name="dist")
 
 # load templates
 templates = Jinja2Templates(directory="templates")
@@ -147,7 +148,15 @@ async def use_case(request: Request, use_case_id: int, use_case_step: int, progr
         "use_case_text": use_case_dict[use_case_id],
         "limesurvey_url": f"{limesurvey_url}?{urlencode(limesurvey_params)}",
         "saved": bool(progress_saved or from_limesurvey_user_data_collection),
+        "emotions": emotions_dict
     })
+
+
+# handle the form in /usecase
+@app.post('/usecaseuseremotion')
+async def use_case_user_emotion(user_emotion: str = Form(...), user_emotion_reason: str = Form(...), user_id: str = Cookie(None)):
+    print(user_emotion)
+    print(user_emotion_reason)
 
 
 # use this url to redirect the limesurvey results

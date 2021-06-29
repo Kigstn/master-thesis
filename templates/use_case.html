@@ -5,12 +5,101 @@
 <div class="container">
     <h3> Use Case </h3>
     <p> {{ use_case_text }} </p>
-    <div class="d-flex justify-content-center" style="margin-top: 50px">
-        <a class="btn btn-dark btn-lg" href="{{ limesurvey_url }}" type="button">
-            Weiter
-        </a>
+    <hr>
+
+    <!-- Emotion Input Form -->
+    <!-- Source: https://github.com/nat-davydova/multisteps-form (adapted) -->
+    <div class="multisteps-form">
+        <!--progress bar-->
+        <div class="row">
+            <div class="col-12 col-lg-8 ml-auto mr-auto mb-4">
+                <div class="multisteps-form__progress">
+                    <button class="multisteps-form__progress-btn js-active" type="button" disabled>
+                        Emotion
+                    </button>
+                    <button class="multisteps-form__progress-btn" type="button" disabled>
+                        Grund der Emotion
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Forms -->
+        <div class="row">
+            <div class="col-12 col-lg-8 m-auto">
+                <form class="multisteps-form__form" action="/usecaseuseremotion" method="post">
+                    <!-- Page 1 -->
+                    <div class="multisteps-form__panel shadow p-4 rounded bg-white js-active" data-animation="scaleIn">
+                        <h3 class="multisteps-form__title text-center">
+                            Bitte geben Sie Ihre aktuelle Gefühlslage ein
+                        </h3>
+                        <div class="multisteps-form__content">
+                        {% for emotion_tripplet in emotions %}
+                            <div class="row" style="padding-bottom: 10px; padding-top: 10px">
+                                {% for emotion, emotion_values in emotion_tripplet.items() %}
+                                    <div class="col btn-group">
+                                        <input type="radio" class="btn-check" name="user_emotion" id="{{ emotion }}" value="{{ emotion }}" autocomplete="off" required>
+                                        <label class="btn {{ emotion_values["style"] }}" for="{{ emotion }}">
+                                            {{ emotion_values["labels"][0] }}
+                                            <br>
+                                            <img src="{{ url_for('static', path=emotion_values["image"]) }}" alt="{{ emotion }}" width="80">
+                                            <br>
+                                            {{ emotion_values["labels"][1] }}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                        </div>
+                        <div class="row">
+                            <div class="button-row d-flex mt-4 col-12 justify-content-md-end">
+                                <button class="btn btn-dark js-btn-next" type="button">
+                                    Weiter
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Page 2 -->
+                    <div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn">
+                        <h3 class="multisteps-form__title text-center">
+                            Ist der Handel für Ihre Emotion verantwortlich?
+                        </h3>
+                        <div class="multisteps-form__content">
+                            <div class="row" style="padding-bottom: 10px; padding-top: 10px">
+                                <div class="col btn-group">
+                                    <input type="radio" class="btn-check" name="user_emotion_reason" id="retail" value="retail" autocomplete="off" required>
+                                    <label class="btn btn-outline-dark" for="retail">
+                                        Ja
+                                        <br>
+                                        <img src="{{ url_for('static', path="retail.png") }}" alt="retail" width="80">
+                                    </label>
+                                </div>
+                                <div class="col btn-group">
+                                    <input type="radio" class="btn-check" name="user_emotion_reason" id="not_retail" value="not_retail" autocomplete="off" required>
+                                    <label class="btn btn-outline-primary" for="not_retail">
+                                        Nein
+                                        <br>
+                                        <img src="{{ url_for('static', path="not_retail.png") }}" alt="not_retail" width="80">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="button-row d-flex mt-4 col-12 justify-content-between">
+                                    <button class="btn btn-dark js-btn-prev" type="button">
+                                        Zurück
+                                    </button>
+                                    <button class="btn btn-primary ml-auto " type="submit">
+                                        Abschicken
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
+<script src="{{ url_for('dist', path='/multi_step_form.js') }}"></script>
 
 <!-- Toast that fire if use case has been completed -->
 {% if saved %}

@@ -15,11 +15,14 @@
     <hr>
     <form action="/giveawayemail" method="post">
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email Adresse</label>
-            <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            <div id="emailHelp" class="form-text">Ihre Email wird nach der Verlosung sofort gelöscht und zu keinen anderem Zweck verwendet</div>
+            <input name="email" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Email Addresse">
+            <div id="emailHelp" class="form-text">
+                Ihre Email wird nach der Verlosung sofort gelöscht und zu keinen anderem Zweck verwendet
+            </div>
         </div>
-        <button type="submit" class="btn btn-dark">Teilnehmen</button>
+        <button type="submit" class="btn btn-primary">
+            Teilnehmen
+        </button>
     </form>
 
     <!-- Toast that fires if email has been updated -->
