@@ -193,4 +193,9 @@ main > .container {
           transform: scale(1);
 }
 
+.no-pad-no-marg {
+    padding: 0;
+    margin: 0;
+}
+
 

@@ -93,8 +93,7 @@ async def root(request: Request, user_id: Optional[str] = Cookie(None)):
 async def guide(request: Request, use_case_id: int, use_case_step: int, user_id: str = Cookie(None)):
     # todo guide how this works if the user is new. Maybe with carousel?
     # https://getbootstrap.com/docs/5.0/components/carousel/
-
-    guide_text = "temp"
+    estimate_time_needed = 30
 
     # define params needed to build the link to the limesurvey user data collection
     params = {
@@ -108,8 +107,8 @@ async def guide(request: Request, use_case_id: int, use_case_step: int, user_id:
         "user_id": user_id,
         "use_case_count": len(use_case_dict),
         "use_case_count_current": get_number_of_completed_use_cases(con, user_id),
-        "guide_text": guide_text,
         "use_case_url": f"{limesurvey_user_info_url}?{urlencode(params)}",
+        "estimate_time_needed": estimate_time_needed,
     })
 
 
@@ -119,8 +118,6 @@ async def use_case(request: Request, use_case_id: int, use_case_step: int, progr
     # if user comes from the user data collection aka limesurvey, save their id in the DB with use_case_id = 0
     if from_limesurvey_user_data_collection:
         update_db_user(con, user_id, 0, None, None, datetime.datetime.now(tz=datetime.timezone.utc))
-
-    # todo get the user emotion if not specified
 
     # todo special behaviour is the seond use case step is given
 

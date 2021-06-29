@@ -1,6 +1,6 @@
 use_case_dict = {
-    1: "ich bin use case 1",
-    2: "ich bin use case zweiiiiiiiii",
+    1: "Hier stehen Informationen",
+    2: "Hier stehen Informationen",
 }
 
 emotions_dict = [

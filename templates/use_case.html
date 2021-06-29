@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="container">
-    <h3> Use Case </h3>
+    <h3> Bitte versetzen Sie sich in folgende Situation </h3>
     <p> {{ use_case_text }} </p>
     <hr>
 
@@ -12,7 +12,7 @@
     <div class="multisteps-form">
         <!--progress bar-->
         <div class="row">
-            <div class="col-12 col-lg-8 ml-auto mr-auto mb-4">
+            <div class="col-12 ml-auto mr-auto mb-4 align-self-center">
                 <div class="multisteps-form__progress">
                     <button class="multisteps-form__progress-btn js-active" type="button" disabled>
                         Emotion
@@ -67,7 +67,7 @@
                             <div class="row" style="padding-bottom: 10px; padding-top: 10px">
                                 <div class="col btn-group">
                                     <input type="radio" class="btn-check" name="user_emotion_reason" id="retail" value="retail" autocomplete="off" required>
-                                    <label class="btn btn-outline-dark" for="retail">
+                                    <label class="btn btn-outline-secondary" for="retail">
                                         Ja
                                         <br>
                                         <img src="{{ url_for('static', path="retail.png") }}" alt="retail" width="80">
@@ -75,7 +75,7 @@
                                 </div>
                                 <div class="col btn-group">
                                     <input type="radio" class="btn-check" name="user_emotion_reason" id="not_retail" value="not_retail" autocomplete="off" required>
-                                    <label class="btn btn-outline-primary" for="not_retail">
+                                    <label class="btn btn-outline-secondary" for="not_retail">
                                         Nein
                                         <br>
                                         <img src="{{ url_for('static', path="not_retail.png") }}" alt="not_retail" width="80">
