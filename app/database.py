@@ -3,7 +3,7 @@ import sqlite3
 import random
 import json
 
-from config import use_case_dict
+from app.config import use_case_dict
 
 
 # creates the db tables. Gets called when there is no existing DB

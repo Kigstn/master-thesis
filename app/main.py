@@ -14,11 +14,11 @@ from starlette.responses import RedirectResponse
 from starlette.staticfiles import StaticFiles
 from urllib.parse import urlencode
 
-from cookie import set_cookie
-from errors import http_exceptions_handler, request_validation_error_handler
-from database import get_use_case, update_db_user, get_number_of_completed_use_cases, user_is_new, create_db_tables, \
+from app.cookie import set_cookie
+from app.errors import http_exceptions_handler, request_validation_error_handler
+from app.database import get_use_case, update_db_user, get_number_of_completed_use_cases, user_is_new, create_db_tables, \
     update_email, update_comment
-from config import use_case_dict, limesurvey_url, limesurvey_user_info_url, emotions_dict
+from app.config import use_case_dict, limesurvey_url, limesurvey_user_info_url, emotions_dict
 
 # create and load the DB. Using sqlite3 since that's the easiest IMO
 db_name = 'user_data.db'
