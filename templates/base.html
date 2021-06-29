@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
     </head>
 
-    <body style="margin-top: 100px" class="d-flex flex-column vh-100">
+    <body class="d-flex flex-column vh-100">
         <!-- Navbar at top -->
         <nav class="navbar fixed-top navbar-dark bg-dark justify-content-between">
             <!-- Home Page -->
@@ -46,46 +46,47 @@
 
         <!-- Placeholder for content depending on the path -->
         <main class="flex-shrink-1">
-        {% block content %}{% endblock %}
+            {% block content %}{% endblock %}
         </main>
 
         <!-- Navbar at bottom with links to affiliates -->
-
-        <nav class="navbar bg-dark justify-content-center footer">
-            <div class="row">
-                <div class="col-md-auto">
-                    <div class="hovereffect">
-                        <img class="img-responsive rounded" src="{{ url_for('static', path='/tubs_logo.png') }}" height="50" alt="TU Braunschweig Logo">
-                        <div class="overlay">
-                           <a class="info" target="_blank" rel="noopener noreferrer" href="https://www.tu-braunschweig.de">TU Braunschweig</a>
+        <footer class="mt-auto">
+            <nav class="navbar bg-dark justify-content-center footer">
+                <div class="row">
+                    <div class="col-md-auto">
+                        <div class="hovereffect">
+                            <img class="img-responsive rounded" src="{{ url_for('static', path='/tubs_logo.png') }}" height="50" alt="TU Braunschweig Logo">
+                            <div class="overlay">
+                               <a class="info" target="_blank" rel="noopener noreferrer" href="https://www.tu-braunschweig.de">TU Braunschweig</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-auto">
+                        <div class="hovereffect">
+                            <img class="img-responsive rounded" src="{{ url_for('static', path='/wi2_logo.png') }}" height="50" alt="WI2 Logo">
+                            <div class="overlay">
+                               <a class="info" target="_blank" rel="noopener noreferrer" href="https://www.tu-braunschweig.de/wi2">Wi2 Institut</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-auto">
+                        <div class="hovereffect">
+                            <img class="img-responsive rounded" src="{{ url_for('static', path='/github_link.png') }}" height="50" alt="WI2 Logo">
+                            <div class="overlay">
+                               <a class="info" target="_blank" rel="noopener noreferrer" href="https://github.com/Kigstn/master-thesis/">Source Code</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-auto">
+                        <div class="hovereffect">
+                            <img class="img-responsive rounded" src="{{ url_for('static', path='/email_link.png') }}" height="50" alt="WI2 Logo">
+                            <div class="overlay">
+                               <a class="info" target="_blank" rel="noopener noreferrer" href="mailto:d.jaekel@tu-braunschweig.de">Kontakt</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-auto">
-                    <div class="hovereffect">
-                        <img class="img-responsive rounded" src="{{ url_for('static', path='/wi2_logo.png') }}" height="50" alt="WI2 Logo">
-                        <div class="overlay">
-                           <a class="info" target="_blank" rel="noopener noreferrer" href="https://www.tu-braunschweig.de/wi2">Wi2 Institut</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-auto">
-                    <div class="hovereffect">
-                        <img class="img-responsive rounded" src="{{ url_for('static', path='/github_link.png') }}" height="50" alt="WI2 Logo">
-                        <div class="overlay">
-                           <a class="info" target="_blank" rel="noopener noreferrer" href="https://github.com/Kigstn/master-thesis/">Source Code</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-auto">
-                    <div class="hovereffect">
-                        <img class="img-responsive rounded" src="{{ url_for('static', path='/email_link.png') }}" height="50" alt="WI2 Logo">
-                        <div class="overlay">
-                           <a class="info" target="_blank" rel="noopener noreferrer" href="mailto:d.jaekel@tu-braunschweig.de">Kontakt</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
+            </nav>
+        </footer>
     </body>
 </html>
