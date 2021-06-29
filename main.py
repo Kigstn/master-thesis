@@ -17,7 +17,7 @@ from urllib.parse import urlencode
 from cookie import set_cookie
 from errors import http_exceptions_handler, request_validation_error_handler
 from database import get_use_case, update_db_user, get_number_of_completed_use_cases, user_is_new, create_db_tables, \
-    update_email
+    update_email, update_comment
 from config import use_case_dict, limesurvey_url, limesurvey_user_info_url, emotions_dict
 
 # create and load the DB. Using sqlite3 since that's the easiest IMO
@@ -203,13 +203,14 @@ async def limesurvey(user_id: str, use_case_id: int, use_case_step: int, user_em
 
 # set a new cookie with a new ID and redirects to home. Mostly used for testing
 @app.get('/thanks', response_class=HTMLResponse)
-async def thanks(request: Request, user_id: str = Cookie(None), email_saved: bool = False):
+async def thanks(request: Request, user_id: str = Cookie(None), email_saved: bool = False, comment_saved: bool = False):
     return templates.TemplateResponse("thanks.html", {
         "request": request,
         "user_id": user_id,
         "use_case_count": len(use_case_dict),
         "use_case_count_current": get_number_of_completed_use_cases(con, user_id),
         "email_saved": email_saved,
+        "comment_saved": comment_saved,
     })
 
 
@@ -222,6 +223,20 @@ async def save_email(email: str = Form(...), user_id: str = Cookie(None)):
     # direct them back
     params = {
         "email_saved": True,
+    }
+    redirect_path = f"/thanks?{urlencode(params)}"
+    return RedirectResponse(redirect_path, status_code=303)
+
+
+# saves / update if the users had a comment
+@app.post('/comment')
+async def comment(comment: str = Form(...), user_id: str = Cookie(None)):
+    # update comment
+    update_comment(con, user_id, comment)
+
+    # direct them back
+    params = {
+        "comment_saved": True,
     }
     redirect_path = f"/thanks?{urlencode(params)}"
     return RedirectResponse(redirect_path, status_code=303)

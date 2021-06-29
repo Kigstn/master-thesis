@@ -8,14 +8,23 @@
     </div>
     <p> Herzlichen Dank für Ihre Teilnahme an diesem Experiment!</p>
     <p> Wenn Sie Fragen oder Anmerkungen haben, schreiben Sie mir gerne eine Email. Meine Adresse finden Sie am unteren Rand der Website.</p>
+    <form action="/comment" method="post">
+        <div class="mb-3">
+            <textarea class="form-control" name="comment" rows="3" placeholder="Bei Wunsch können hier Anmerkungen gemacht werden" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">
+            Abschicken
+        </button>
+    </form>
     <br>
-    <h3> Gewinnspiel </h3>
+    <hr>
+    <br>
+    <h3> Freiwillige Gutschein Verlosung </h3>
     <p> Die Teilnehmer die alle Teile des Experimentes bearbeitet haben, können an einem Gewinnspiel teilnehmen.</p>
     <p> Verlost werden fünf Amazon Gutscheine im Wert von jeweils 10€. Wenn Sie an der Verlosung teilnehmen wollen, geben Sie bitte Ihre Email Addresse an.</p>
-    <hr>
     <form action="/giveawayemail" method="post">
         <div class="mb-3">
-            <input name="email" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Email Addresse">
+            <input name="email" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Email Addresse" required>
             <div id="emailHelp" class="form-text">
                 Ihre Email wird nach der Verlosung sofort gelöscht und zu keinen anderem Zweck verwendet
             </div>
@@ -26,12 +35,17 @@
     </form>
 
     <!-- Toast that fires if email has been updated -->
-    {% if email_saved %}
+    {% if (email_saved or comment_saved) %}
         <div class="position-fixed top-0 end-0 p-3 align-items-center" style="z-index: 100000; margin-top: 50px;">
             <div class="toast hide bg-success" role="alert" aria-live="polite" aria-atomic="true">
                 <div class="d-flex text-dark fw-bold">
                     <div class="toast-body">
-                        Email wurde aktualisiert!
+                        {% if email_saved %}
+                            Email wurde aktualisiert!
+                        {% endif %}
+                        {% if comment_saved %}
+                            Anmerkung wurde gespeichert!
+                        {% endif %}
                     </div>
                     <button type="button" class="btn-close btn-close-dark me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>

@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
     </head>
 
-    <body style="margin-top: 100px">
+    <body style="margin-top: 100px" class="d-flex flex-column vh-100">
         <!-- Navbar at top -->
         <nav class="navbar fixed-top navbar-dark bg-dark justify-content-between">
             <!-- Home Page -->
@@ -45,9 +45,12 @@
         </nav>
 
         <!-- Placeholder for content depending on the path -->
+        <main class="flex-shrink-1">
         {% block content %}{% endblock %}
+        </main>
 
         <!-- Navbar at bottom with links to affiliates -->
+
         <nav class="navbar bg-dark justify-content-center footer">
             <div class="row">
                 <div class="col-md-auto">

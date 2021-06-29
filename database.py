@@ -20,6 +20,12 @@ def create_db_tables(con: sqlite3.Connection):
             (user_id TEXT PRIMARY KEY, email TEXT);
     """)
 
+    con.execute("""
+        CREATE TABLE
+            comments
+            (user_id TEXT PRIMARY KEY, comment TEXT);
+    """)
+
 
 # get a use case the user hasn't done before and the use case step
 def get_use_case(con: sqlite3.Connection, user_id: str) -> dict:
@@ -141,4 +147,25 @@ def update_email(con: sqlite3.Connection, user_id: str, email: str) -> None:
                 email = ?;
     """
     cur.execute(insert_sql, (user_id, email, email, ))
+    con.commit()
+
+
+# inserts a users comment, or changes it
+def update_comment(con: sqlite3.Connection, user_id: str, comment: str) -> None:
+    cur = con.cursor()
+
+    insert_sql = """
+        INSERT INTO 
+            comments 
+            (user_id, comment)
+        VALUES
+            (?, ?)        
+        ON 
+            CONFLICT 
+                (user_id)
+        DO 
+            UPDATE SET
+                comment = comment || " UPDATED WITH: " || ?;
+    """
+    cur.execute(insert_sql, (user_id, comment, comment,))
     con.commit()
