@@ -2,6 +2,7 @@ import datetime
 import sqlite3
 import random
 import json
+from typing import Optional
 
 from app.config import use_case_dict
 
@@ -27,14 +28,14 @@ def create_db_tables(con: sqlite3.Connection):
     """)
 
 
-# get a use case the user hasn't done before and the use case step
-def get_use_case(con: sqlite3.Connection, user_id: str) -> dict:
+# get a use case the user hasn't done before with a random use case step. A user is done with a use case once he has done one of the steps
+def get_use_case(con: sqlite3.Connection, user_id: str) -> Optional[dict]:
     cur = con.cursor()
 
     # get use cases for user and their completion status
     select_sql = """
         SELECT 
-            use_case_id, use_case_step
+            use_case_id
         FROM 
             use_cases
         WHERE 
@@ -46,19 +47,14 @@ def get_use_case(con: sqlite3.Connection, user_id: str) -> dict:
     # loop through the available use cases and compare them
     to_do_use_cases = []
     for use_case_id, use_case_description in use_case_dict.items():
-        # check if use case has been (at least partially) completed by the user
-        if (use_case_id, 1) not in user_use_case_completion_status:
-            to_do_use_cases.append({
-                "use_case_id": use_case_id,
-                "use_case_step": 1,
-            })
-
-        # if it has been (at least partially) completed by the user, check if the second part has also been completed. If not, that one has high priority and need to be done first
-        elif (use_case_id, 2) not in user_use_case_completion_status:
-            return {
-                "use_case_id": use_case_id,
-                "use_case_step": 2,
-            }
+        # check both steps if any has been completed.
+        if use_case_id not in user_use_case_completion_status:
+            # add both steps to the to_do list where one gets randomly chosen at the end
+            for i in range(1, 3):
+                to_do_use_cases.append({
+                    "use_case_id": use_case_id,
+                    "use_case_step": i,
+                })
 
     # return a random use case
     return random.choice(to_do_use_cases) if to_do_use_cases else None
@@ -70,30 +66,13 @@ def get_number_of_completed_use_cases(con: sqlite3.Connection, user_id: str) -> 
 
     select_sql = """
         SELECT 
-            COUNT(t1.use_case_id)
-        FROM (
-            SELECT
-                use_case_id
-            FROM
-                use_cases
-            WHERE 
-                user_id = ?
-                AND use_case_step = 1
-        ) as t1
-        JOIN (
-            SELECT
-                use_case_id
-            FROM
-                use_cases
-            WHERE 
-                user_id = ?
-                AND use_case_step = 2
-        ) as t2
-        ON (
-            t1.use_case_id = t2.use_case_id
-        );    
+            COUNT(use_case_id)
+        FROM
+            use_cases
+        WHERE 
+            user_id = ?;    
     """
-    cur.execute(select_sql, (user_id, user_id, ))
+    cur.execute(select_sql, (user_id, ))
     return cur.fetchone()[0]
 
 

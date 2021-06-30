@@ -44,7 +44,7 @@ emotions_dict = [
             "image": "/anxiety.png",
             "labels": [
                 "Besorgt",
-                "Verängstigt",
+                "Unwohl",
             ],
         },
         "anger": {

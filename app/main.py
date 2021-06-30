@@ -91,8 +91,6 @@ async def root(request: Request, user_id: Optional[str] = Cookie(None)):
 # show the user a guide on how to use the site
 @app.get('/guide')
 async def guide(request: Request, use_case_id: int, use_case_step: int, user_id: str = Cookie(None)):
-    # todo guide how this works if the user is new. Maybe with carousel?
-    # https://getbootstrap.com/docs/5.0/components/carousel/
     estimate_time_needed = 30
 
     # define params needed to build the link to the limesurvey user data collection
@@ -119,31 +117,14 @@ async def use_case(request: Request, use_case_id: int, use_case_step: int, progr
     if from_limesurvey_user_data_collection:
         update_db_user(con, user_id, 0, None, None, datetime.datetime.now(tz=datetime.timezone.utc))
 
-    # todo special behaviour is the seond use case step is given
-
-    use_case_response = "abc"
-    next_response = "def"
-    user_emotion = {1: 2, "asidajsd": "asdipojäasd"}
-
-    # define params needed to build the limesurvey link later
-    limesurvey_params = {
-        "newtest": "Y",
-        "lang": "de",
-        "userid": user_id,
-        "usecaseid": use_case_id,
-        "usecasestep": use_case_step,
-        "usecaseresponse": use_case_response,
-        "useremotion": '|'.join([f"{i}:{j}" for i, j in user_emotion.items()]),     # convert the dict into a pure string because limesurvey doesnt like "{" in strings
-        "nextresponse": next_response,
-    }
-
     return templates.TemplateResponse("use_case.html", {
         "request": request,
         "user_id": user_id,
         "use_case_count": len(use_case_dict),
         "use_case_count_current": get_number_of_completed_use_cases(con, user_id),
         "use_case_text": use_case_dict[use_case_id],
-        "limesurvey_url": f"{limesurvey_url}?{urlencode(limesurvey_params)}",
+        "usecaseid": use_case_id,
+        "usecasestep": use_case_step,
         "saved": bool(progress_saved or from_limesurvey_user_data_collection),
         "emotions": emotions_dict
     })
@@ -151,9 +132,28 @@ async def use_case(request: Request, use_case_id: int, use_case_step: int, progr
 
 # handle the form in /usecase
 @app.post('/usecaseuseremotion')
-async def use_case_user_emotion(user_emotion: str = Form(...), user_emotion_reason: str = Form(...), user_id: str = Cookie(None)):
-    print(user_emotion)
-    print(user_emotion_reason)
+async def use_case_user_emotion(use_case_id: int, use_case_step: int, user_emotion: str = Form(...), user_emotion_reason: str = Form(...), user_id: str = Cookie(None)):
+    # build the dict which holds the emotion info from the form and is passed to limesurvey
+    user_emotion_dict = {
+        "user_emotion": user_emotion,
+        "user_emotion_reason": user_emotion_reason,
+    }
+
+    # todo get response
+    use_case_response = "abc"
+
+    # define params needed to build the limesurvey link
+    limesurvey_params = {
+        "newtest": "Y",
+        "lang": "de",
+        "userid": user_id,
+        "usecaseid": use_case_id,
+        "usecasestep": use_case_step,
+        "usecaseresponse": use_case_response,
+        "useremotion": '|'.join([f"{i}:{j}" for i, j in user_emotion_dict.items()]),     # convert the dict into a pure string because limesurvey doesnt like "{" in strings
+    }
+    return RedirectResponse(f"{limesurvey_url}?{urlencode(limesurvey_params)}", status_code=303)
+
 
 
 # use this url to redirect the limesurvey results
@@ -165,35 +165,19 @@ async def limesurvey(user_id: str, use_case_id: int, use_case_step: int, user_em
     # save progress in DB
     update_db_user(con, user_id, use_case_id, use_case_step, user_emotion, datetime.datetime.now(tz=datetime.timezone.utc))
 
-    # check if the user has filled out both parts
-    # if no, redirect them back to limesurvey
-    if use_case_step == 1:
-        params = {
-            "lang": "de",
-            "newtest": "Y",
-            "userid": user_id,
-            "usecaseid": use_case_id,
-            "usecasestep": 2,
-            "usecaseresponse": next_response,
-            "useremotion": '|'.join([f"{i}:{j}" for i, j in user_emotion.items()]),     # convert the dict into a pure string because limesurvey doesnt like "{" in strings
-            "nextresponse": None,
-        }
-        redirect_path = f"{limesurvey_url}?{urlencode(params)}"
+    # get a new use case and start over
+    use_case_info = get_use_case(con, user_id)
 
-    # if yes, get a new use case and start over
-    else:
-        use_case_info = get_use_case(con, user_id)
+    # if not more use cases are to be done
+    if not use_case_info:
+        return RedirectResponse("/thanks", status_code=303)
 
-        # if not more use cases are to be done
-        if not use_case_info:
-            return RedirectResponse("/thanks", status_code=303)
-
-        params = {
-            "use_case_id": use_case_info["use_case_id"],
-            "use_case_step": use_case_info["use_case_step"],
-            "progress_saved": True,
-        }
-        redirect_path = f"/usecase?{urlencode(params)}"
+    params = {
+        "use_case_id": use_case_info["use_case_id"],
+        "use_case_step": use_case_info["use_case_step"],
+        "progress_saved": True,
+    }
+    redirect_path = f"/usecase?{urlencode(params)}"
 
     return RedirectResponse(redirect_path, status_code=303)
 
@@ -227,7 +211,7 @@ async def save_email(email: str = Form(...), user_id: str = Cookie(None)):
 
 # saves / update if the users had a comment
 @app.post('/comment')
-async def comment(comment: str = Form(...), user_id: str = Cookie(None)):
+async def user_comment(comment: str = Form(...), user_id: str = Cookie(None)):
     # update comment
     update_comment(con, user_id, comment)
 
