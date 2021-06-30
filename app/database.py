@@ -42,7 +42,7 @@ def get_use_case(con: sqlite3.Connection, user_id: str) -> Optional[dict]:
             user_id = ?;
     """
     cur.execute(select_sql, (user_id, ))
-    user_use_case_completion_status = cur.fetchall()
+    user_use_case_completion_status = [i[0] for i in cur.fetchall()]
 
     # loop through the available use cases and compare them
     to_do_use_cases = []
