@@ -115,7 +115,7 @@ async def guide(request: Request, use_case_id: int, use_case_step: int, user_id:
 async def use_case(request: Request, use_case_id: int, use_case_step: int, progress_saved: bool = False, from_limesurvey_user_data_collection: bool = False, user_id: str = Cookie(None)):
     # if user comes from the user data collection aka limesurvey, save their id in the DB with use_case_id = 0
     if from_limesurvey_user_data_collection:
-        update_db_user(con, user_id, 0, None, None, datetime.datetime.now(tz=datetime.timezone.utc))
+        update_db_user(con, user_id, 0, 0, None, datetime.datetime.now(tz=datetime.timezone.utc))
 
     return templates.TemplateResponse("use_case.html", {
         "request": request,

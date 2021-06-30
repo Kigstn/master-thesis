@@ -70,7 +70,8 @@ def get_number_of_completed_use_cases(con: sqlite3.Connection, user_id: str) -> 
         FROM
             use_cases
         WHERE 
-            user_id = ?;    
+            user_id = ?
+            AND NOT use_case_id = 0;    
     """
     cur.execute(select_sql, (user_id, ))
     return cur.fetchone()[0]
@@ -102,7 +103,11 @@ def update_db_user(con: sqlite3.Connection, user_id: str, use_case_id: int, use_
             use_cases 
             (user_id, use_case_id, use_case_step, user_emotion, datetime)
         VALUES
-            (?, ?, ?, ?, ?);
+            (?, ?, ?, ?, ?)
+        ON 
+            CONFLICT 
+        DO 
+            NOTHING;
     """
     cur.execute(insert_sql, (user_id, use_case_id, use_case_step, json.dumps(user_emotion), time, ))
     con.commit()
