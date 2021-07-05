@@ -5,6 +5,22 @@ use_case_dict = {
 
 emotions_dict = [
     {
+        "anger": {
+            "style": "btn-outline-danger",
+            "image": "/anger.png",
+            "labels": [
+                "Wütend",
+                "Frustriert",
+            ],
+        },
+        "embarrassment": {
+            "style": "btn-outline-warning",
+            "image": "/embarrassment.png",
+            "labels": [
+                "Verlegen",
+                "Beschämt",
+            ],
+        },
         "happiness": {
             "style": "btn-outline-success",
             "image": "/happiness.png",
@@ -13,26 +29,10 @@ emotions_dict = [
                 "Freudig",
             ],
         },
-        "relaxedness": {
-            "style": "btn-outline-info",
-            "image": "/relaxedness.png",
-            "labels": [
-                "Entspannt",
-                "Gelassen",
-            ],
-        },
-        "embarrassment": {
-            "style": "btn-outline-primary",
-            "image": "/embarrassment.png",
-            "labels": [
-                "Verlegen",
-                "Beschämt",
-            ],
-        },
     },
     {
         "sadness": {
-            "style": "btn-outline-warning",
+            "style": "btn-outline-purple",
             "image": "/sadness.png",
             "labels": [
                 "Traurig",
@@ -47,12 +47,12 @@ emotions_dict = [
                 "Unwohl",
             ],
         },
-        "anger": {
-            "style": "btn-outline-danger",
-            "image": "/anger.png",
+        "relaxedness": {
+            "style": "btn-outline-info",
+            "image": "/relaxedness.png",
             "labels": [
-                "Wütend",
-                "Frustriert",
+                "Entspannt",
+                "Gelassen",
             ],
         },
     },
