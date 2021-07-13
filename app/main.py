@@ -85,7 +85,7 @@ async def root(request: Request, user_id: Optional[str] = Cookie(None)):
 # show the user a guide on how to use the site
 @app.get('/guide')
 async def guide(request: Request, use_case_id: int, use_case_step: int, user_id: str = Cookie(None)):
-    estimate_time_needed = 30
+    estimate_time_needed = 999999
 
     # define params needed to build the link to the limesurvey user data collection
     params = {
