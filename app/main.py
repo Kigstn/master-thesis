@@ -1,9 +1,8 @@
+import asyncio
 import datetime
 from typing import Optional
 
 import uvicorn
-import sqlite3
-import os
 
 from fastapi import Request, Cookie, FastAPI, Form
 from fastapi.templating import Jinja2Templates
@@ -16,12 +15,12 @@ from urllib.parse import urlencode
 
 from app.cookie import set_cookie
 from app.errors import http_exceptions_handler, request_validation_error_handler
-from app.database import Database
+from app.database import get_db
 from app.config import use_case_dict, limesurvey_url, limesurvey_user_info_url, emotions_dict
 
 # create and load the DB. Using sqlite3 since that's the easiest IMO
 db_name = 'user_data.db'
-db = Database(db_name)
+db = asyncio.get_event_loop().run_until_complete(get_db(db_name))
 
 # mount the webserver to /static
 app = FastAPI()
@@ -54,14 +53,14 @@ async def check_for_cookie(request: Request, call_next):
 @app.get('/', response_class=HTMLResponse)
 async def root(request: Request, user_id: Optional[str] = Cookie(None)):
     # get a random use case to show the user
-    use_case_info = db.get_use_case(user_id)
+    use_case_info = await db.get_use_case(user_id)
 
     # if not more use cases are to be done
     if not use_case_info:
         return RedirectResponse("/thanks", status_code=303)
 
     # check if the user is new (has not completed a single use case step)
-    if db.user_is_new(user_id):
+    if await db.user_is_new(user_id):
         url = "/guide"
     else:
         url = "/usecase"
@@ -77,7 +76,7 @@ async def root(request: Request, user_id: Optional[str] = Cookie(None)):
         "request": request,
         "user_id": user_id,
         "use_case_count": 2,
-        "use_case_count_current": db.get_number_of_completed_use_cases(user_id),
+        "use_case_count_current": await db.get_number_of_completed_use_cases(user_id),
         "continue_button_url": continue_button_url,
     })
 
@@ -98,7 +97,7 @@ async def guide(request: Request, use_case_id: int, use_case_step: int, user_id:
         "request": request,
         "user_id": user_id,
         "use_case_count": 2,
-        "use_case_count_current": db.get_number_of_completed_use_cases(user_id),
+        "use_case_count_current": await db.get_number_of_completed_use_cases(user_id),
         "use_case_url": f"{limesurvey_user_info_url}?{urlencode(params)}",
         "estimate_time_needed": estimate_time_needed,
     })
@@ -109,13 +108,13 @@ async def guide(request: Request, use_case_id: int, use_case_step: int, user_id:
 async def use_case(request: Request, use_case_id: int, use_case_step: int, progress_saved: bool = False, from_limesurvey_user_data_collection: bool = False, user_id: str = Cookie(None)):
     # if user comes from the user data collection aka limesurvey, save their id in the DB with use_case_id = 0
     if from_limesurvey_user_data_collection:
-        db.update_db_user(user_id, 0, 0, None, datetime.datetime.now(tz=datetime.timezone.utc))
+        await db.update_db_user(user_id, 0, 0, None, datetime.datetime.now(tz=datetime.timezone.utc))
 
     return templates.TemplateResponse("use_case.html", {
         "request": request,
         "user_id": user_id,
         "use_case_count": 2,
-        "use_case_count_current": db.get_number_of_completed_use_cases(user_id),
+        "use_case_count_current": await db.get_number_of_completed_use_cases(user_id),
         "use_case_text": use_case_dict[use_case_id],
         "usecaseid": use_case_id,
         "usecasestep": use_case_step,
@@ -156,7 +155,7 @@ async def limesurvey(user_id: str, use_case_id: int, use_case_step: int, user_em
     user_emotion = {j[0]: j[1] for j in [i.split(":") for i in user_emotion.split("|")]}
 
     # save progress in DB
-    db.update_db_user(user_id, use_case_id, use_case_step, user_emotion, datetime.datetime.now(tz=datetime.timezone.utc))
+    await db.update_db_user(user_id, use_case_id, use_case_step, user_emotion, datetime.datetime.now(tz=datetime.timezone.utc))
 
     # redirect user to thanks page
     return RedirectResponse("/thanks", status_code=303)
@@ -169,7 +168,7 @@ async def thanks(request: Request, user_id: str = Cookie(None), email_saved: boo
         "request": request,
         "user_id": user_id,
         "use_case_count": 2,
-        "use_case_count_current": db.get_number_of_completed_use_cases(user_id),
+        "use_case_count_current": await db.get_number_of_completed_use_cases(user_id),
         "email_saved": email_saved,
         "comment_saved": comment_saved,
     })
@@ -179,7 +178,7 @@ async def thanks(request: Request, user_id: str = Cookie(None), email_saved: boo
 @app.post('/giveawayemail')
 async def save_email(email: str = Form(...), user_id: str = Cookie(None)):
     # update email
-    db.update_email(user_id, email)
+    await db.update_email(user_id, email)
 
     # direct them back
     params = {
@@ -193,7 +192,7 @@ async def save_email(email: str = Form(...), user_id: str = Cookie(None)):
 @app.post('/comment')
 async def user_comment(comment: str = Form(...), user_id: str = Cookie(None)):
     # update comment
-    db.update_comment(user_id, comment)
+    await db.update_comment(user_id, comment)
 
     # direct them back
     params = {
@@ -212,7 +211,7 @@ async def new_cookie():
 # close DB on shutdown
 @app.on_event("shutdown")
 async def shutdown_event():
-    db.close()
+    await db.close()
 
 
 # start the server

@@ -1,46 +1,52 @@
 import datetime
 import os
-import sqlite3
+import aiosqlite
 import json
 from typing import Optional
 
 from app.config import use_case_dict
 
 
-class Database:
-    con: sqlite3.Connection
-    cur: sqlite3.Cursor
+# helper function to get the DB class
+async def get_db(db_name: str):
+    db = Database()
+    await db.init(db_name)
+    return db
 
-    def __init__(self, db_name: str):
-        self.con = sqlite3.connect(db_name)
-        self.cur = self.con.cursor()
+
+class Database:
+    connection: aiosqlite.Connection
+
+    async def init(self, db_name: str):
+        self.connection = await aiosqlite.connect(db_name)
 
         # add tables to db if first start
         if not os.path.isfile(db_name):
-            self._create_db_tables()
+            await self._create_db_tables()
 
     # creates the db tables. Gets called when there is no existing DB
-    def _create_db_tables(self):
-        self.con.execute("""
+    async def _create_db_tables(self):
+        await self.connection.execute("""
             CREATE TABLE
                 use_cases
                 (user_id TEXT, use_case_id SMALLINT, use_case_step SMALLINT, user_emotion JSON, datetime TIMESTAMP WITH TIME ZONE, PRIMARY KEY (user_id, use_case_id, use_case_step));
         """)
 
-        self.con.execute("""
+        await self.connection.execute("""
             CREATE TABLE
                 emails
                 (user_id TEXT PRIMARY KEY, email TEXT);
         """)
 
-        self.con.execute("""
+        await self.connection.execute("""
             CREATE TABLE
                 comments
                 (user_id TEXT PRIMARY KEY, comment TEXT);
         """)
+        await self.connection.commit()
 
     # gets the user count for each use case
-    def _get_use_case_count(self) -> dict:
+    async def _get_use_case_count(self) -> dict:
         select_sql = """
             SELECT 
                 use_case_id, use_case_step
@@ -49,8 +55,8 @@ class Database:
             WHERE
                 use_case_id != 0;
         """
-        self.cur.execute(select_sql)
-        use_case_completion_status = self.cur.fetchall()
+        cursor = await self.connection.execute(select_sql)
+        use_case_completion_status = await cursor.fetchall()
 
         # prepare return dict
         status = {}
@@ -70,16 +76,16 @@ class Database:
         return status
 
     # get a use case if the user hasn't done one before
-    def get_use_case(self, user_id: str) -> Optional[dict]:
+    async def get_use_case(self, user_id: str) -> Optional[dict]:
         # get the number of completed use cases
-        user_use_case_completed = self.get_number_of_completed_use_cases(user_id)
+        user_use_case_completed = await self.get_number_of_completed_use_cases(user_id)
 
         # check if user has done one already. Remember: use case 0 (user data) counts too
         if user_use_case_completed > 1:
             return None
 
         # get the number of completed use cases and completed steps to balance them
-        use_case_completion_status = self._get_use_case_count()
+        use_case_completion_status = await self._get_use_case_count()
 
         # get the use case with the lowest completion
         lowest_use_case_completions = sorted({i: sum([k for k in j.values()]) for i, j in use_case_completion_status.items()}.items(), key=lambda item: item[1])[0][0]
@@ -94,7 +100,7 @@ class Database:
         }
 
     # returns the number of use cases the user has completed including the demographic survey
-    def get_number_of_completed_use_cases(self, user_id: str) -> int:
+    async def get_number_of_completed_use_cases(self, user_id: str) -> int:
         select_sql = """
             SELECT 
                 COUNT(use_case_id)
@@ -103,11 +109,11 @@ class Database:
             WHERE 
                 user_id = ?;    
         """
-        self.cur.execute(select_sql, (user_id, ))
-        return self.cur.fetchone()[0]
+        cursor = await self.connection.execute(select_sql, (user_id,))
+        return (await cursor.fetchone())[0]
 
     # checks if the user has completed a single use case step
-    def user_is_new(self, user_id: str) -> bool:
+    async def user_is_new(self, user_id: str) -> bool:
         # get use cases for user and their completion status
         select_sql = """
             SELECT 
@@ -117,11 +123,11 @@ class Database:
             WHERE 
                 user_id = ?;
         """
-        self.cur.execute(select_sql, (user_id, ))
-        return not bool(self.cur.fetchone())
+        cursor = await self.connection.execute(select_sql, (user_id, ))
+        return not bool(await cursor.fetchone())
 
     # inserts a user and their use case status into the DB
-    def update_db_user(self, user_id: str, use_case_id: int, use_case_step: int, user_emotion: dict, time: datetime.datetime) -> None:
+    async def update_db_user(self, user_id: str, use_case_id: int, use_case_step: int, user_emotion: dict, time: datetime.datetime) -> None:
         insert_sql = """
             INSERT INTO 
                 use_cases 
@@ -133,11 +139,11 @@ class Database:
             DO 
                 NOTHING;
         """
-        self.cur.execute(insert_sql, (user_id, use_case_id, use_case_step, json.dumps(user_emotion), time, ))
-        self.con.commit()
+        await self.connection.execute(insert_sql, (user_id, use_case_id, use_case_step, json.dumps(user_emotion), time, ))
+        await self.connection.commit()
 
     # inserts a users email, or changes it
-    def update_email(self, user_id: str, email: str) -> None:
+    async def update_email(self, user_id: str, email: str) -> None:
         insert_sql = """
             INSERT INTO 
                 emails 
@@ -151,11 +157,11 @@ class Database:
                 UPDATE SET
                     email = ?;
         """
-        self.cur.execute(insert_sql, (user_id, email, email, ))
-        self.con.commit()
+        await self.connection.execute(insert_sql, (user_id, email, email, ))
+        await self.connection.commit()
 
     # inserts a users comment, or changes it
-    def update_comment(self, user_id: str, comment: str) -> None:
+    async def update_comment(self, user_id: str, comment: str) -> None:
         insert_sql = """
             INSERT INTO 
                 comments 
@@ -169,9 +175,9 @@ class Database:
                 UPDATE SET
                     comment = comment || " UPDATED WITH: " || ?;
         """
-        self.cur.execute(insert_sql, (user_id, comment, comment,))
-        self.con.commit()
+        await self.connection.execute(insert_sql, (user_id, comment, comment,))
+        await self.connection.commit()
 
     # closes the DB
-    def close(self) -> None:
-        self.con.close()
+    async def close(self) -> None:
+        await self.connection.close()
