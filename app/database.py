@@ -11,10 +11,13 @@ class Database:
     connection: aiosqlite.Connection
 
     async def init(self, db_name: str):
+        # first start?
+        first_start = not os.path.isfile(db_name)
+
         self.connection = await aiosqlite.connect(db_name)
 
         # add tables to db if first start
-        if not os.path.isfile(db_name):
+        if first_start:
             await self._create_db_tables()
 
     # creates the db tables. Gets called when there is no existing DB
