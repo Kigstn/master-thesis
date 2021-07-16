@@ -5,10 +5,9 @@ COPY requirements.txt /app/requirements.txt
 RUN pip3.9 install -r /app/requirements.txt
 
 COPY ./app /app/app
-COPY ./dist /app
-COPY ./static /app
-COPY ./templates /app
 
 EXPOSE 80
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
+WORKDIR /app
+
+CMD ["uvicorn", "app.app.main:app", "--host", "0.0.0.0", "--port", "80"]
