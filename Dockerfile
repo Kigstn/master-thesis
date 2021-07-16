@@ -1,9 +1,13 @@
 FROM python:3.9
 
-RUN pip3.9 install -r ./requirements.txt
+COPY requirements.txt /app/requirements.txt
 
-EXPOSE 80
+WORKDIR /app
+
+RUN pip3.9 install -r requirements.txt
 
 COPY ./app /app
+
+EXPOSE 80
 
 CMD ["python3.9", "app/main.py"]
