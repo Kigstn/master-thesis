@@ -213,7 +213,7 @@ async def startup_event():
     global db
 
     # create and load the DB. Using sqlite3 since that's the easiest IMO
-    db_name = 'user_data.db'
+    db_name = 'app/user_data.db'
     db = await get_db(db_name)
 
 
