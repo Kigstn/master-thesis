@@ -7,13 +7,6 @@ from typing import Optional
 from app.config import use_case_dict
 
 
-# helper function to get the DB class
-async def get_db(db_name: str):
-    db = Database()
-    await db.init(db_name)
-    return db
-
-
 class Database:
     connection: aiosqlite.Connection
 
@@ -181,3 +174,10 @@ class Database:
     # closes the DB
     async def close(self) -> None:
         await self.connection.close()
+
+
+# helper function to get the DB class
+async def get_db(db_name: str) -> Database:
+    db = Database()
+    await db.init(db_name)
+    return db

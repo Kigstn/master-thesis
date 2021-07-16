@@ -15,12 +15,11 @@ from urllib.parse import urlencode
 
 from app.cookie import set_cookie
 from app.errors import http_exceptions_handler, request_validation_error_handler
-from app.database import get_db
+from app.database import get_db, Database
 from app.config import use_case_dict, limesurvey_url, limesurvey_user_info_url, emotions_dict
 
-# create and load the DB. Using sqlite3 since that's the easiest IMO
-db_name = 'user_data.db'
-db = asyncio.get_event_loop().run_until_complete(get_db(db_name))
+
+db: Database = None
 
 # mount the webserver to /static
 app = FastAPI()
@@ -208,11 +207,17 @@ async def new_cookie():
     return set_cookie("/")
 
 
+# open DB connection on startup
+@app.on_event("startup")
+async def startup_event():
+    global db
+
+    # create and load the DB. Using sqlite3 since that's the easiest IMO
+    db_name = 'user_data.db'
+    db = await get_db(db_name)
+
+
 # close DB on shutdown
 @app.on_event("shutdown")
 async def shutdown_event():
     await db.close()
-
-
-# start the server
-uvicorn.run(app, host="0.0.0.0", port=80)
