@@ -1,8 +1,5 @@
-import asyncio
 import datetime
 from typing import Optional
-
-import uvicorn
 
 from fastapi import Request, Cookie, FastAPI, Form
 from fastapi.templating import Jinja2Templates
@@ -213,7 +210,7 @@ async def startup_event():
     global db
 
     # create and load the DB. Using sqlite3 since that's the easiest IMO
-    db_name = 'app/user_data.db'
+    db_name = 'app/database/user_data.db'
     db = await get_db(db_name)
 
 
