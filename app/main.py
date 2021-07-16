@@ -23,11 +23,11 @@ db: Database = None
 
 # mount the webserver to /static
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="app/static"), name="static")
-app.mount("/dist", StaticFiles(directory="app/dist"), name="dist")
+app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/dist", StaticFiles(directory="dist"), name="dist")
 
 # load templates
-templates = Jinja2Templates(directory="app/templates")
+templates = Jinja2Templates(directory="templates")
 
 # add error handlers
 app.add_exception_handler(HTTPException, http_exceptions_handler)
