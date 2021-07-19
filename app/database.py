@@ -6,9 +6,6 @@ import asyncpg
 from typing import Optional
 from app.config import use_case_dict
 
-# connect to DB from locally with
-# psql postgresql://postgres:postgres@localhost:5432/postgres
-
 
 class Database:
     connection: asyncpg.Connection
