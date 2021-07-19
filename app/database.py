@@ -1,45 +1,45 @@
 import datetime
 import os
-import aiosqlite
 import json
-from typing import Optional
+import asyncpg
 
+from typing import Optional
 from app.config import use_case_dict
+
+# connect to DB from locally with
+# psql postgresql://postgres:postgres@localhost:5432/postgres
 
 
 class Database:
-    connection: aiosqlite.Connection
+    connection: asyncpg.Connection
 
-    async def init(self, db_name: str):
-        # first start?
-        first_start = not os.path.isfile(db_name)
+    async def init(self):
+        args = {
+            "database": os.environ.get("POSTGRES_DB"),
+            "user": os.environ.get("POSTGRES_USER"),
+            "password": os.environ.get("POSTGRES_PASSWORD"),
+            "host": os.environ.get("POSTGRES_HOST"),
+        }
 
-        self.connection = await aiosqlite.connect(db_name)
+        self.connection = await asyncpg.connect(**args)
 
-        # add tables to db if first start
-        if first_start:
-            await self._create_db_tables()
-
-    # creates the db tables. Gets called when there is no existing DB
-    async def _create_db_tables(self):
         await self.connection.execute("""
-            CREATE TABLE
+            CREATE TABLE IF NOT EXISTS 
                 use_cases
                 (user_id TEXT, use_case_id SMALLINT, use_case_step SMALLINT, user_emotion JSON, datetime TIMESTAMP WITH TIME ZONE, PRIMARY KEY (user_id, use_case_id, use_case_step));
         """)
 
         await self.connection.execute("""
-            CREATE TABLE
+            CREATE TABLE IF NOT EXISTS 
                 emails
                 (user_id TEXT PRIMARY KEY, email TEXT);
         """)
 
         await self.connection.execute("""
-            CREATE TABLE
+            CREATE TABLE IF NOT EXISTS 
                 comments
                 (user_id TEXT PRIMARY KEY, comment TEXT);
         """)
-        await self.connection.commit()
 
     # gets the user count for each use case
     async def _get_use_case_count(self) -> dict:
@@ -51,8 +51,7 @@ class Database:
             WHERE
                 use_case_id != 0;
         """
-        cursor = await self.connection.execute(select_sql)
-        use_case_completion_status = await cursor.fetchall()
+        use_case_completion_status = await self.connection.fetch(select_sql)
 
         # prepare return dict
         status = {}
@@ -67,7 +66,7 @@ class Database:
 
         # fill return dict
         for use_case_completion in use_case_completion_status:
-            status[use_case_completion[0]][use_case_completion[1]] += 1
+            status[use_case_completion["use_case_id"]][use_case_completion["use_case_step"]] += 1
 
         return status
 
@@ -103,10 +102,9 @@ class Database:
             FROM
                 use_cases
             WHERE 
-                user_id = ?;    
+                user_id = $1;    
         """
-        cursor = await self.connection.execute(select_sql, (user_id,))
-        return (await cursor.fetchone())[0]
+        return await self.connection.fetchval(select_sql, user_id)
 
     # checks if the user has completed a single use case step
     async def user_is_new(self, user_id: str) -> bool:
@@ -117,10 +115,9 @@ class Database:
             FROM 
                 use_cases
             WHERE 
-                user_id = ?;
+                user_id = $1;
         """
-        cursor = await self.connection.execute(select_sql, (user_id, ))
-        return not bool(await cursor.fetchone())
+        return not bool(await self.connection.fetchval(select_sql, user_id))
 
     # inserts a user and their use case status into the DB
     async def update_db_user(self, user_id: str, use_case_id: int, use_case_step: int, user_emotion: dict, time: datetime.datetime) -> None:
@@ -129,14 +126,13 @@ class Database:
                 use_cases 
                 (user_id, use_case_id, use_case_step, user_emotion, datetime)
             VALUES
-                (?, ?, ?, ?, ?)
+                ($1, $2, $3, $4, $5)
             ON 
                 CONFLICT 
             DO 
                 NOTHING;
         """
-        await self.connection.execute(insert_sql, (user_id, use_case_id, use_case_step, json.dumps(user_emotion), time, ))
-        await self.connection.commit()
+        await self.connection.execute(insert_sql, user_id, use_case_id, use_case_step, json.dumps(user_emotion), time)
 
     # inserts a users email, or changes it
     async def update_email(self, user_id: str, email: str) -> None:
@@ -145,16 +141,15 @@ class Database:
                 emails 
                 (user_id, email)
             VALUES
-                (?, ?)        
+                ($1, $2)        
             ON 
                 CONFLICT 
                     (user_id)
-            DO 
-                UPDATE SET
-                    email = ?;
+            DO UPDATE 
+                SET
+                    email = $2;
         """
-        await self.connection.execute(insert_sql, (user_id, email, email, ))
-        await self.connection.commit()
+        await self.connection.execute(insert_sql, user_id, email)
 
     # inserts a users comment, or changes it
     async def update_comment(self, user_id: str, comment: str) -> None:
@@ -163,16 +158,15 @@ class Database:
                 comments 
                 (user_id, comment)
             VALUES
-                (?, ?)        
+                ($1, $2)        
             ON 
                 CONFLICT 
                     (user_id)
-            DO 
-                UPDATE SET
-                    comment = comment || " UPDATED WITH: " || ?;
+            DO UPDATE 
+                SET
+                    comment = CONCAT(comments.comment, ' UPDATED WITH: ', $2);
         """
-        await self.connection.execute(insert_sql, (user_id, comment, comment,))
-        await self.connection.commit()
+        await self.connection.execute(insert_sql, user_id, comment)
 
     # closes the DB
     async def close(self) -> None:
@@ -180,7 +174,7 @@ class Database:
 
 
 # helper function to get the DB class
-async def get_db(db_name: str) -> Database:
+async def get_db() -> Database:
     db = Database()
-    await db.init(db_name)
+    await db.init()
     return db

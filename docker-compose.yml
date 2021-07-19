@@ -1,0 +1,35 @@
+version: "3"
+
+x-database-variables: &database-variables
+  POSTGRES_DB: postgres
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+
+x-website-variables: &website-variables
+  <<: *database-variables
+  POSTGRES_HOST: postgres
+
+services:
+  website:
+    build:
+      .
+    command:
+      uvicorn app.main:app --host 0.0.0.0 --port 80 --reload
+    ports:
+      - "80:80"
+    volumes:
+      - ./app:/app/app
+    environment:
+      *website-variables
+    depends_on:
+      - postgres
+
+  postgres:
+    image:
+      postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./database:/var/lib/postgresql/data
+    environment:
+      *database-variables

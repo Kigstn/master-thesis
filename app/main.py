@@ -15,7 +15,6 @@ from app.errors import http_exceptions_handler, request_validation_error_handler
 from app.database import get_db, Database
 from app.config import use_case_dict, limesurvey_url, limesurvey_user_info_url, emotions_dict
 
-
 db: Database = None
 
 # mount the webserver to /static
@@ -209,9 +208,8 @@ async def new_cookie():
 async def startup_event():
     global db
 
-    # create and load the DB. Using sqlite3 since that's the easiest IMO
-    db_name = 'app/database/user_data.db'
-    db = await get_db(db_name)
+    # connect to the DB
+    db = await get_db()
 
 
 # close DB on shutdown
