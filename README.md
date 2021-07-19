@@ -14,7 +14,7 @@ Uses two docker containers to host a website and a persistent database
 ---
 
 ### Try it yourself
-Run it: `docker-compose -up`
+Run it: `docker-compose up -d`
 Access the database: `psql postgresql://postgres:postgres@localhost:5432/postgres`
 
 Prerequisites:

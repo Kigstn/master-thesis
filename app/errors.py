@@ -5,7 +5,7 @@ from starlette.templating import Jinja2Templates
 
 
 # load templates
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="app/templates")
 
 
 # Handle HTTPExceptions here
