@@ -152,7 +152,7 @@ async def use_case_user_emotion(use_case_id: int, use_case_step: int, user_emoti
 
 # use this url to redirect the limesurvey results from the use case evaluation
 @app.get('/limesurveyusecase', response_class=HTMLResponse)
-async def limesurvey(user_id: str, use_case_id: int, use_case_step: int, user_emotion: str, next_response: str):
+async def limesurvey(user_id: str, use_case_id: int, use_case_step: int, user_emotion: str):
     # convert user emotion back to a dict, since it is encoded
     user_emotion = {j[0]: j[1] for j in [i.split(":") for i in user_emotion.split("|")]}
 
