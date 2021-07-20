@@ -128,6 +128,8 @@ class Database:
             WHERE 
                 user_id = $1;
         """
+        print(await self.connection.fetch(select_sql, user_id))
+        print(len(await self.connection.fetch(select_sql, user_id)))
         return bool(len(await self.connection.fetch(select_sql, user_id)) >= experiment_steps)
 
     # inserts a user and their use case status into the DB
