@@ -4,15 +4,33 @@
 
 <div class="container">
     <h1> Bitte versetzen Sie sich in folgende Situation </h1>
-    {% for text in use_case_text %}
-        {% if not loop.last %}
-            <p> {{ text }} </p>
-        {% endif %}
-        {% if loop.last %}
-            <p class="lead"> {{ text }} </p>
-        {% endif %}
-    {% endfor %}
+
+    <!-- Use Case Info -->
+    <div class="container">
+        {% for text in use_case_text %}
+            {% if text is string %}
+                {% if not loop.last %}
+                    <p> {{ text }} </p>
+                {% else %}
+                    <br>
+                    <p class="lead"> {{ text }} </p>
+                {% endif %}
+            {% else %}
+                <div class="clearfix">
+                    {% for sub_text in text %}
+                        {% if loop.first %}
+                            <img src="{{ url_for('static', path='/' + sub_text[1] + '.png') }}" class="img-thumbnail m-2 {{ sub_text[0] }}" style="width: 250px" alt="{{ sub_text[1] }}">
+                        {% else %}
+                            <p> {{ sub_text }} </p>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <br>
     <hr>
+    <br>
 
     <!-- Emotion Input Form -->
     <!-- Source: https://github.com/nat-davydova/multisteps-form (adapted) -->
