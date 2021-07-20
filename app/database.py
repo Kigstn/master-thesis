@@ -1,6 +1,5 @@
 import datetime
 import os
-import json
 import asyncpg
 
 from typing import Optional
@@ -92,6 +91,20 @@ class Database:
             "use_case_step": lowest_use_case_step_completions,
         }
 
+    # gets the in-progress use case
+    async def get_in_progress_use_case(self, user_id: str) -> Optional[asyncpg.Record]:
+        select_sql = """
+            SELECT 
+                use_case_id, use_case_step
+            FROM 
+                use_cases
+            WHERE
+                user_id = $1
+                AND use_case_id != 0
+                AND use_case_id != -1;
+        """
+        return await self.connection.fetchrow(select_sql, user_id)
+
     # returns the number of use cases the user has completed including the demographic survey
     async def get_number_of_completed_use_cases(self, user_id: str) -> int:
         select_sql = """
@@ -128,8 +141,6 @@ class Database:
             WHERE 
                 user_id = $1;
         """
-        print(await self.connection.fetch(select_sql, user_id))
-        print(len(await self.connection.fetch(select_sql, user_id)))
         return bool(len(await self.connection.fetch(select_sql, user_id)) >= experiment_steps)
 
     # inserts a user and their use case status into the DB

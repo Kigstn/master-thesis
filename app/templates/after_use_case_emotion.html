@@ -46,21 +46,23 @@
         </div>
     </div>
 
-    <div class="position-fixed top-0 end-0 p-3 align-items-center" style="z-index: 100000; margin-top: 50px;">
-        <div class="toast hide bg-success" role="alert" aria-live="polite" aria-atomic="true">
-            <div class="d-flex text-dark fw-bold">
-                <div class="toast-body">
-                    Fortschritt wurde gespeichert!
+    {% if saved %}
+        <div class="position-fixed top-0 end-0 p-3 align-items-center" style="z-index: 100000; margin-top: 50px;">
+            <div class="toast hide bg-success" role="alert" aria-live="polite" aria-atomic="true">
+                <div class="d-flex text-dark fw-bold">
+                    <div class="toast-body">
+                        Fortschritt wurde gespeichert!
+                    </div>
+                    <button type="button" class="btn-close btn-close-dark me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
-                <button type="button" class="btn-close btn-close-dark me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
-    </div>
-    <script>
-        $(document).ready(function() {
-            $(".toast").toast('show');
-        });
-    </script>
+        <script>
+            $(document).ready(function() {
+                $(".toast").toast('show');
+            });
+        </script>
+    {% endif %}
 </div>
 
 

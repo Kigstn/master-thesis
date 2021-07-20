@@ -48,12 +48,22 @@ async def check_for_cookie(request: Request, call_next):
 # root
 @app.get('/', response_class=HTMLResponse)
 async def root(request: Request, user_id: Optional[str] = Cookie(None)):
+    # get a random use case to show the user
+    use_case_info = await db.get_use_case(user_id)
+
     # if not more use cases are to be done
     if await db.user_is_done(user_id):
         return RedirectResponse("/thanks", status_code=303)
-
-    # get a random use case to show the user
-    use_case_info = await db.get_use_case(user_id)
+    # if user has done step two
+    elif not use_case_info:
+        use_case_info = await db.get_in_progress_use_case(user_id)
+        params = {
+            "use_case_id": use_case_info["use_case_id"],
+            "use_case_step": use_case_info["use_case_step"],
+            "progress_saved": False
+        }
+        redirect_url = f"/afterusecaseemotion?{urlencode(params)}"
+        return RedirectResponse(redirect_url, status_code=303)
 
     # check if the user is new (has not completed a single use case step)
     if await db.user_is_new(user_id):
@@ -177,7 +187,7 @@ async def limesurvey_use_case(user_id: str, use_case_id: int, use_case_step: int
 
 # ask the user for their emotion again
 @app.get('/afterusecaseemotion')
-async def after_use_case_emotion(request: Request, use_case_id: int, use_case_step: int, user_id: str = Cookie(None)):
+async def after_use_case_emotion(request: Request, use_case_id: int, use_case_step: int, progress_saved: bool = True, user_id: str = Cookie(None)):
     return templates.TemplateResponse("after_use_case_emotion.html", {
         "request": request,
         "user_id": user_id,
@@ -186,6 +196,7 @@ async def after_use_case_emotion(request: Request, use_case_id: int, use_case_st
         "usecaseid": use_case_id,
         "usecasestep": use_case_step,
         "emotions": emotions_dict,
+        "saved": progress_saved,
     })
 
 
