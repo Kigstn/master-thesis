@@ -4,7 +4,7 @@ import json
 import asyncpg
 
 from typing import Optional
-from app.config import use_case_dict
+from app.config import use_case_dict, experiment_steps
 
 
 class Database:
@@ -116,6 +116,19 @@ class Database:
                 user_id = $1;
         """
         return not bool(await self.connection.fetchval(select_sql, user_id))
+
+    # checks if the user is done
+    async def user_is_done(self, user_id: str) -> bool:
+        # get use cases for user and their completion status
+        select_sql = """
+            SELECT 
+                *
+            FROM 
+                use_cases
+            WHERE 
+                user_id = $1;
+        """
+        return bool(len(await self.connection.fetch(select_sql, user_id)) >= experiment_steps)
 
     # inserts a user and their use case status into the DB
     async def update_db_user(self, user_id: str, use_case_id: int, use_case_step: int, time: datetime.datetime, user_emotion_before_response: str = None, user_emotion_reason_before_response: str = None, user_emotion_after_response: str = None) -> None:

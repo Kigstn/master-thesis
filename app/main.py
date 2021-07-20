@@ -48,12 +48,12 @@ async def check_for_cookie(request: Request, call_next):
 # root
 @app.get('/', response_class=HTMLResponse)
 async def root(request: Request, user_id: Optional[str] = Cookie(None)):
+    # if not more use cases are to be done
+    if await db.user_is_done(user_id):
+        return RedirectResponse("/thanks", status_code=303)
+
     # get a random use case to show the user
     use_case_info = await db.get_use_case(user_id)
-
-    # if not more use cases are to be done
-    if not use_case_info:
-        return RedirectResponse("/thanks", status_code=303)
 
     # check if the user is new (has not completed a single use case step)
     if await db.user_is_new(user_id):
@@ -152,7 +152,7 @@ async def use_case_user_emotion(use_case_id: int, use_case_step: int, user_emoti
 
 # use this url to redirect the limesurvey results from the use case evaluation
 @app.get('/limesurveyusecase', response_class=HTMLResponse)
-async def limesurvey(user_id: str, use_case_id: int, use_case_step: int, user_emotion: str):
+async def limesurvey_use_case(user_id: str, use_case_id: int, use_case_step: int, user_emotion: str):
     # convert user emotion back to a dict, since it is encoded
     user_emotion = {j[0]: j[1] for j in [i.split(":") for i in user_emotion.split("|")]}
 
@@ -185,12 +185,13 @@ async def after_use_case_emotion(request: Request, use_case_id: int, use_case_st
         "use_case_count_current": await db.get_number_of_completed_use_cases(user_id),
         "usecaseid": use_case_id,
         "usecasestep": use_case_step,
+        "emotions": emotions_dict,
     })
 
 
 # redirect to limesurvey
-@app.get('/afterusecaseemotiontolimsurvey')
-async def use_case(use_case_id: int, use_case_step: int, user_emotion: str = Form(...), user_id: str = Cookie(None)):
+@app.post('/afterusecaseemotiontolimsurvey')
+async def after_use_case_emotion_to_limsurvey(use_case_id: int, use_case_step: int, user_emotion: str = Form(...), user_id: str = Cookie(None)):
     # save the new emotion in the DB in the entry for the use case
     await db.update_db_user(
         user_id=user_id,
@@ -211,7 +212,7 @@ async def use_case(use_case_id: int, use_case_step: int, user_emotion: str = For
 
 # use this url to redirect the limesurvey results from the interface evaluation
 @app.get('/limesurveyinterface', response_class=HTMLResponse)
-async def limesurvey(user_id: str):
+async def limesurvey_interface(user_id: str):
     # save progress in DB
     await db.update_db_user(
         user_id=user_id,
