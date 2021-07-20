@@ -13,7 +13,8 @@ from urllib.parse import urlencode
 from app.cookie import set_cookie
 from app.errors import http_exceptions_handler, request_validation_error_handler
 from app.database import get_db, Database
-from app.config import use_case_dict, limesurvey_url, limesurvey_user_info_url, emotions_dict
+from app.config import use_case_dict, limesurvey_use_case_evaluation, limesurvey_user_info_url, emotions_dict, \
+    limesurvey_interface_evaluation, experiment_steps
 
 db: Database = None
 
@@ -70,7 +71,7 @@ async def root(request: Request, user_id: Optional[str] = Cookie(None)):
     return templates.TemplateResponse("root.html", {
         "request": request,
         "user_id": user_id,
-        "use_case_count": 2,
+        "use_case_count": experiment_steps,
         "use_case_count_current": await db.get_number_of_completed_use_cases(user_id),
         "continue_button_url": continue_button_url,
     })
@@ -91,7 +92,7 @@ async def guide(request: Request, use_case_id: int, use_case_step: int, user_id:
     return templates.TemplateResponse("guide.html", {
         "request": request,
         "user_id": user_id,
-        "use_case_count": 2,
+        "use_case_count": experiment_steps,
         "use_case_count_current": await db.get_number_of_completed_use_cases(user_id),
         "use_case_url": f"{limesurvey_user_info_url}?{urlencode(params)}",
         "estimate_time_needed": estimate_time_needed,
@@ -103,12 +104,18 @@ async def guide(request: Request, use_case_id: int, use_case_step: int, user_id:
 async def use_case(request: Request, use_case_id: int, use_case_step: int, progress_saved: bool = False, from_limesurvey_user_data_collection: bool = False, user_id: str = Cookie(None)):
     # if user comes from the user data collection aka limesurvey, save their id in the DB with use_case_id = 0
     if from_limesurvey_user_data_collection:
-        await db.update_db_user(user_id, 0, 0, None, datetime.datetime.now(tz=datetime.timezone.utc))
+        await db.update_db_user(
+            user_id=user_id,
+            use_case_id=0,
+            use_case_step=0,
+            time=datetime.datetime.now(tz=datetime.timezone.utc),
+        )
+
 
     return templates.TemplateResponse("use_case.html", {
         "request": request,
         "user_id": user_id,
-        "use_case_count": 2,
+        "use_case_count": experiment_steps,
         "use_case_count_current": await db.get_number_of_completed_use_cases(user_id),
         "use_case_text": use_case_dict[use_case_id],
         "usecaseid": use_case_id,
@@ -140,17 +147,78 @@ async def use_case_user_emotion(use_case_id: int, use_case_step: int, user_emoti
         "usecaseresponse": use_case_response,
         "useremotion": '|'.join([f"{i}:{j}" for i, j in user_emotion_dict.items()]),     # convert the dict into a pure string because limesurvey doesnt like "{" in strings
     }
-    return RedirectResponse(f"{limesurvey_url}?{urlencode(limesurvey_params)}", status_code=303)
+    return RedirectResponse(f"{limesurvey_use_case_evaluation}?{urlencode(limesurvey_params)}", status_code=303)
 
 
-# use this url to redirect the limesurvey results
-@app.get('/limesurvey', response_class=HTMLResponse)
+# use this url to redirect the limesurvey results from the use case evaluation
+@app.get('/limesurveyusecase', response_class=HTMLResponse)
 async def limesurvey(user_id: str, use_case_id: int, use_case_step: int, user_emotion: str, next_response: str):
     # convert user emotion back to a dict, since it is encoded
     user_emotion = {j[0]: j[1] for j in [i.split(":") for i in user_emotion.split("|")]}
 
     # save progress in DB
-    await db.update_db_user(user_id, use_case_id, use_case_step, user_emotion, datetime.datetime.now(tz=datetime.timezone.utc))
+    await db.update_db_user(
+        user_id=user_id,
+        use_case_id=use_case_id,
+        use_case_step=use_case_step,
+        time=datetime.datetime.now(tz=datetime.timezone.utc),
+        user_emotion_before_response=user_emotion["user_emotion"],
+        user_emotion_reason_before_response=user_emotion["user_emotion_reason"],
+    )
+
+    # redirect user to ask for their emotion after use case response
+    params = {
+        "use_case_id": user_id,
+        "use_case_step": use_case_step,
+    }
+    redirect_path = f"/afterusecaseemotion?{urlencode(params)}"
+    return RedirectResponse(redirect_path, status_code=303)
+
+
+# ask the user for their emotion again
+@app.get('/afterusecaseemotion')
+async def after_use_case_emotion(request: Request, use_case_id: int, use_case_step: int, user_id: str = Cookie(None)):
+    return templates.TemplateResponse("after_use_case_emotion.html", {
+        "request": request,
+        "user_id": user_id,
+        "use_case_count": experiment_steps,
+        "use_case_count_current": await db.get_number_of_completed_use_cases(user_id),
+        "usecaseid": use_case_id,
+        "usecasestep": use_case_step,
+    })
+
+
+# redirect to limesurvey
+@app.get('/afterusecaseemotiontolimsurvey')
+async def use_case(use_case_id: int, use_case_step: int, user_emotion: str = Form(...), user_id: str = Cookie(None)):
+    # save the new emotion in the DB in the entry for the use case
+    await db.update_db_user(
+        user_id=user_id,
+        use_case_id=use_case_id,
+        use_case_step=use_case_step,
+        time=datetime.datetime.now(tz=datetime.timezone.utc),
+        user_emotion_after_response=user_emotion,
+    )
+
+    # define params needed to build the limesurvey link
+    limesurvey_params = {
+        "newtest": "Y",
+        "lang": "de",
+        "userid": user_id,
+    }
+    return RedirectResponse(f"{limesurvey_interface_evaluation}?{urlencode(limesurvey_params)}", status_code=303)
+
+
+# use this url to redirect the limesurvey results from the interface evaluation
+@app.get('/limesurveyinterface', response_class=HTMLResponse)
+async def limesurvey(user_id: str):
+    # save progress in DB
+    await db.update_db_user(
+        user_id=user_id,
+        use_case_id=-1,
+        use_case_step=-1,
+        time=datetime.datetime.now(tz=datetime.timezone.utc),
+    )
 
     # redirect user to thanks page
     return RedirectResponse("/thanks", status_code=303)
@@ -162,7 +230,7 @@ async def thanks(request: Request, user_id: str = Cookie(None), email_saved: boo
     return templates.TemplateResponse("thanks.html", {
         "request": request,
         "user_id": user_id,
-        "use_case_count": 2,
+        "use_case_count": experiment_steps,
         "use_case_count_current": await db.get_number_of_completed_use_cases(user_id),
         "email_saved": email_saved,
         "comment_saved": comment_saved,

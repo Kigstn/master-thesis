@@ -59,4 +59,7 @@ emotions_dict = [
 ]
 
 limesurvey_user_info_url = "https://limesurvey.rz.tu-bs.de/index.php/492768"
-limesurvey_url = "https://limesurvey.rz.tu-bs.de/index.php/742517"
+limesurvey_use_case_evaluation = "https://limesurvey.rz.tu-bs.de/index.php/742517"
+limesurvey_interface_evaluation = "https://limesurvey.rz.tu-bs.de/index.php/351253"
+
+experiment_steps = 3

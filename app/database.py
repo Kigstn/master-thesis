@@ -23,7 +23,7 @@ class Database:
         await self.connection.execute("""
             CREATE TABLE IF NOT EXISTS 
                 use_cases
-                (user_id TEXT, use_case_id SMALLINT, use_case_step SMALLINT, user_emotion JSON, datetime TIMESTAMP WITH TIME ZONE, PRIMARY KEY (user_id, use_case_id, use_case_step));
+                (user_id TEXT, use_case_id SMALLINT, use_case_step SMALLINT, user_emotion_before_response TEXT, user_emotion_reason_before_response TEXT, user_emotion_after_response TEXT, datetime TIMESTAMP WITH TIME ZONE, PRIMARY KEY (user_id, use_case_id, use_case_step));
         """)
 
         await self.connection.execute("""
@@ -46,7 +46,8 @@ class Database:
             FROM 
                 use_cases
             WHERE
-                use_case_id != 0;
+                use_case_id != 0
+                AND use_case_id != -1;
         """
         use_case_completion_status = await self.connection.fetch(select_sql)
 
@@ -117,19 +118,20 @@ class Database:
         return not bool(await self.connection.fetchval(select_sql, user_id))
 
     # inserts a user and their use case status into the DB
-    async def update_db_user(self, user_id: str, use_case_id: int, use_case_step: int, user_emotion: dict, time: datetime.datetime) -> None:
+    async def update_db_user(self, user_id: str, use_case_id: int, use_case_step: int, time: datetime.datetime, user_emotion_before_response: str = None, user_emotion_reason_before_response: str = None, user_emotion_after_response: str = None) -> None:
         insert_sql = """
             INSERT INTO 
                 use_cases 
-                (user_id, use_case_id, use_case_step, user_emotion, datetime)
+                (user_id, use_case_id, use_case_step, user_emotion_before_response, user_emotion_reason_before_response, user_emotion_after_response, datetime)
             VALUES
-                ($1, $2, $3, $4, $5)
+                ($1, $2, $3, $4, $5, $6, $7)
             ON 
                 CONFLICT 
-            DO 
-                NOTHING;
+            DO UPDATE
+                SET
+                    user_emotion_after_response = $6;
         """
-        await self.connection.execute(insert_sql, user_id, use_case_id, use_case_step, json.dumps(user_emotion), time)
+        await self.connection.execute(insert_sql, user_id, use_case_id, use_case_step, user_emotion_before_response, user_emotion_reason_before_response, user_emotion_after_response, time)
 
     # inserts a users email, or changes it
     async def update_email(self, user_id: str, email: str) -> None:

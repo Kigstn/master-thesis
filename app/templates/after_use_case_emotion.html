@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <h3> Bitte versetzen Sie sich in folgende Situation </h3>
+    <p> {{ use_case_text }} </p>
+    <hr>
+
+    <form class="multisteps-form__form"
+          action="/afterusecaseemotiontolimsurvey?use_case_id={{ usecaseid }}&use_case_step={{ usecasestep }}" method="post">
+        <!-- Page 1 -->
+        <div class="multisteps-form__panel shadow p-4 rounded bg-white js-active" data-animation="scaleIn">
+            <h3 class="multisteps-form__title text-center">
+                Bitte geben Sie Ihre aktuelle Emotionale Situation an
+            </h3>
+            <div class="multisteps-form__content">
+                {% for emotion_tripplet in emotions %}
+                <div class="row" style="padding-bottom: 10px; padding-top: 10px">
+                    {% for emotion, emotion_values in emotion_tripplet.items() %}
+                    <div class="col btn-group">
+                        <input type="radio" class="btn-check" name="user_emotion" id="{{ emotion }}" value="{{ emotion }}" autocomplete="off" required>
+                        <label class="btn {{ emotion_values["style"] }}" for="{{ emotion }}">
+                            {{ emotion_values["labels"][0] }}
+                            <br>
+                            <img src="{{ url_for('static', path=emotion_values["image"]) }}" alt="{{ emotion }}" width="80">
+                            <br>
+                            {{ emotion_values["labels"][1] }}
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+            <div class="row">
+                <div class="button-row d-flex mt-4 col-12 justify-content-md-end">
+                    <button class="btn btn-primary ml-auto " type="submit">
+                        Abschicken
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="position-fixed top-0 end-0 p-3 align-items-center" style="z-index: 100000; margin-top: 50px;">
+        <div class="toast hide bg-success" role="alert" aria-live="polite" aria-atomic="true">
+            <div class="d-flex text-dark fw-bold">
+                <div class="toast-body">
+                    Fortschritt wurde gespeichert!
+                </div>
+                <button type="button" class="btn-close btn-close-dark me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $(".toast").toast('show');
+        });
+    </script>
+</div>
+
+
+{% endblock %}
