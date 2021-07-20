@@ -15,6 +15,7 @@ from app.errors import http_exceptions_handler, request_validation_error_handler
 from app.database import get_db, Database
 from app.config import use_case_dict, limesurvey_use_case_evaluation, limesurvey_user_info_url, emotions_dict, \
     limesurvey_interface_evaluation, experiment_steps
+from app.use_case_response import get_use_case_response
 
 db: Database = None
 
@@ -143,8 +144,10 @@ async def use_case_user_emotion(use_case_id: int, use_case_step: int, user_emoti
         "user_emotion_reason": user_emotion_reason,
     }
 
-    # todo get response
-    use_case_response = "abc"
+    use_case_response = get_use_case_response(
+        use_case_id=use_case_id,
+        use_case_step=use_case_step,
+    )
 
     # define params needed to build the limesurvey link
     limesurvey_params = {
