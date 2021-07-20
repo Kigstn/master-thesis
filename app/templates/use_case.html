@@ -3,8 +3,15 @@
 {% block content %}
 
 <div class="container">
-    <h3> Bitte versetzen Sie sich in folgende Situation </h3>
-    <p> {{ use_case_text }} </p>
+    <h1> Bitte versetzen Sie sich in folgende Situation </h1>
+    {% for text in use_case_text %}
+        {% if not loop.last %}
+            <p> {{ text }} </p>
+        {% endif %}
+        {% if loop.last %}
+            <p class="lead"> {{ text }} </p>
+        {% endif %}
+    {% endfor %}
     <hr>
 
     <!-- Emotion Input Form -->

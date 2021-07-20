@@ -121,7 +121,6 @@ async def use_case(request: Request, use_case_id: int, use_case_step: int, progr
             time=datetime.datetime.now(tz=datetime.timezone.utc),
         )
 
-
     return templates.TemplateResponse("use_case.html", {
         "request": request,
         "user_id": user_id,
