@@ -168,7 +168,7 @@ async def limesurvey(user_id: str, use_case_id: int, use_case_step: int, user_em
 
     # redirect user to ask for their emotion after use case response
     params = {
-        "use_case_id": user_id,
+        "use_case_id": use_case_id,
         "use_case_step": use_case_step,
     }
     redirect_path = f"/afterusecaseemotion?{urlencode(params)}"
