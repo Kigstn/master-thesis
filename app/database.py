@@ -126,7 +126,7 @@ class Database:
             VALUES
                 ($1, $2, $3, $4, $5, $6, $7)
             ON 
-                CONFLICT 
+                CONFLICT (user_id, use_case_id, use_case_step)
             DO UPDATE
                 SET
                     user_emotion_after_response = $6;
