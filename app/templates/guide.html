@@ -6,12 +6,20 @@
     <h1>Ablauf</h1>
     <p>Dieses Experiment besteht aus mehreren Teilen und dauert insgesamt ca. {{ estimate_time_needed }} Minuten. Ihr Fortschritt wird nach Abschluss von jedem Teil gespeichert, wenn Sie eine Pause brauchen, können Sie die Website somit schließen und später weiter machen. Rufen Sie die Startseite erneut auf und klicken Sie auf "Experiment Starten!" um an der Stelle, wo Sie aufgehört haben, weiter zu machen.</p>
     <p>Um an der Verlosung der Gutscheine teilzunehmen müssen Sie alle Teile des Experimentes bearbeiten.</p>
+    <div class="d-flex justify-content-center" style="margin-top: 50px">
+        <a class="btn btn-primary btn-lg" href="{{ use_case_url }}" type="button">
+            Ich habe den Ablauf verstanden!
+        </a>
+    </div>
+    <br>
     <hr>
-    <p>In der folgenden Diashow finden Sie eine visuelle Anleitung über die Schritte des Experimentes.</p>
+    <br>
+    <h3>Visuelles Beispiel</h3>
+    <p> Bei Bedarf finden Sie in der folgenden Diashow eine visuelle Anleitung über den Vorgang des Experimentes.</p>
 
     <!-- Carousel Guide -->
-    <div class="border border-dark border-4">
-        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+    <div class="border border-dark border-5">
+        <div id="carouselExampleCaptions" class="carousel slide carousel-dark" data-bs-ride="carousel" data-bs-interval="false">
             <div class="carousel-indicators">
                 <button class="bg-primary active" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" aria-current="true" aria-label="Slide 1"></button>
                 <button class="bg-primary" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -66,12 +74,6 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
-    </div>
-
-    <div class="d-flex justify-content-center" style="margin-top: 50px">
-        <a class="btn btn-primary btn-lg" href="{{ use_case_url }}" type="button">
-            Weiter
-        </a>
     </div>
 </div>
 
