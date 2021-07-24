@@ -105,24 +105,24 @@ emotions_dict = [
             "style": "btn-outline-danger",
             "image": "/anger.png",
             "labels": [
-                "Wütend",
-                "Frustriert",
+                "Wütend / Frustriert",
+                "Englisch: Angry",
             ],
         },
         "embarrassment": {
             "style": "btn-outline-warning",
             "image": "/embarrassment.png",
             "labels": [
-                "Verlegen",
-                "Beschämt",
+                "Verlegen / Beschämt",
+                "Englisch: Embarrassed",
             ],
         },
         "happiness": {
             "style": "btn-outline-success",
             "image": "/happiness.png",
             "labels": [
-                "Glücklich",
-                "Freudig",
+                "Glücklich / Freudig",
+                "Englisch: Happy",
             ],
         },
     },
@@ -131,24 +131,24 @@ emotions_dict = [
             "style": "btn-outline-purple",
             "image": "/sadness.png",
             "labels": [
-                "Traurig",
-                "Müde",
+                "Traurig / Müde",
+                "Englisch: Sad",
             ],
         },
         "anxiety": {
             "style": "btn-outline-secondary",
             "image": "/anxiety.png",
             "labels": [
-                "Besorgt",
-                "Unwohl",
+                "Besorgt / Unwohl",
+                "Englisch: Anxious",
             ],
         },
         "relaxedness": {
             "style": "btn-outline-info",
             "image": "/relaxedness.png",
             "labels": [
-                "Entspannt",
-                "Gelassen",
+                "Entspannt / Gelassen",
+                "Englisch: Relaxed",
             ],
         },
     },

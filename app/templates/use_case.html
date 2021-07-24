@@ -61,16 +61,16 @@
                         {% for emotion_tripplet in emotions %}
                             <div class="row" style="padding-bottom: 10px; padding-top: 10px">
                                 {% for emotion, emotion_values in emotion_tripplet.items() %}
-                                    <div class="col btn-group">
-                                        <input type="radio" class="btn-check" name="user_emotion" id="{{ emotion }}" value="{{ emotion }}" autocomplete="off" required>
-                                        <label class="btn {{ emotion_values["style"] }}" for="{{ emotion }}">
-                                            {{ emotion_values["labels"][0] }}
-                                            <br>
-                                            <img src="{{ url_for('static', path=emotion_values["image"]) }}" alt="{{ emotion }}" width="80">
-                                            <br>
-                                            {{ emotion_values["labels"][1] }}
-                                        </label>
-                                    </div>
+                                <div class="col btn-group">
+                                    <input type="radio" class="btn-check" name="user_emotion" id="{{ emotion }}" value="{{ emotion }}" autocomplete="off" required>
+                                    <label class="btn {{ emotion_values["style"] }}" for="{{ emotion }}">
+                                        {{ emotion_values["labels"][0] }}
+                                        <br>
+                                        <img src="{{ url_for('static', path=emotion_values["image"]) }}" alt="{{ emotion }}" width="80">
+                                        <br>
+                                        {{ emotion_values["labels"][1] }}
+                                    </label>
+                                </div>
                                 {% endfor %}
                             </div>
                         {% endfor %}
