@@ -24,17 +24,17 @@ use_case_1 = use_case_base + [
             "float-md-end",
             "use_case_one_day_left",
         ],
-        "Auch das stimmt aber nicht ganz. Einen Tag vor dem Spiel trifft die Versandbestätigung ein und der Fernseher wird noch am gleichen Tag zugestellt. Allerdings funktioniert der Fernseher nicht, obwohl er von außen unbeschädigt wirkt. Da Sie am Telefon so lange in der Warteschleife warten mussten und am nächsten Tag schon das Eröffnungsspiel ist, gehen Sie dieses Mal lieber zum Laden, um hoffentlich eine Lösung zu finden.",
+        "Auch das stimmt aber nicht ganz. Einen Tag vor dem Spiel trifft die Versandbestätigung ein und der Fernseher wird noch am gleichen Tag zugestellt. Allerdings funktioniert der Fernseher nicht, obwohl er von außen unbeschädigt wirkt. Sie geben den kaputten Fernseher online zurück. Da es kein anderes Technikgeschäft in ihrem Umkreis gibt und am nächsten Tag schon das Eröffnungsspiel ist, gehen Sie zum Laden, um hoffentlich eine Fernseher zu finden.",
     ],
     [
         [
             "float-md-start",
             "use_case_queue",
         ],
-        "Im Laden angekommen hat nur einer der Serviceschalter offen und dieser hat eine sehr lange Schlange. Bis Sie dran sind, dauert es noch mal eine halbe Stunde.",
+        "Im Laden angekommen hat nur einer der Serviceschalter offen und dieser hat eine sehr lange Schlange. Ansonsten ist kein Mitarbeiter zu sehen, deshalb stellen Sie sich an der Schlange an. Bis Sie dran sind, dauert es noch mal eine halbe Stunde.",
         "Als Sie dran sind, sagen Sie zu dem Mitarbeiter:",
     ],
-    "Hallo. Mein Fernseher ist neulich kaputt gegangen. Deshalb habe ich letzte Woche bei diesem Laden online einen neuen Fernseher bestellt. Mir wurde gesagt, die Lieferung dauert nur einen Tag, es hat aber sechs Tage gedauert, bis der Fernseher überhaupt versendet worden ist. Der Fernseher ist außerdem kaputt angekommen. Ich habe Zeitdruck und bis morgen brauche ich unbedingt einen funktionierenden Fernseher!",
+    "Hallo. Mein Fernseher ist neulich kaputt gegangen. Deshalb habe ich letzte Woche bei diesem Laden online einen neuen Fernseher bestellt. Mir wurde gesagt, die Lieferung dauert nur einen Tag, es hat aber sechs Tage gedauert, bis der Fernseher überhaupt versendet worden ist. Der Fernseher ist außerdem kaputt angekommen, weshalb ich ihn zurück gegeben habe. Ich habe Zeitdruck und bis morgen brauche ich unbedingt einen funktionierenden Fernseher!",
 ]
 use_case_2 = use_case_base + [
     [
@@ -42,7 +42,7 @@ use_case_2 = use_case_base + [
             "float-md-start",
             "use_case_broken_tv",
         ],
-        "Ihr 16-jähriges Kind hat am Wochenende, als Sie mit Ihrem Ehepartner bei Ihrer Mutter zu Besuch waren, ohne Ihr Wissen eine Hausparty mit vielen Gästen geschmissen. Die Party ist eskaliert - als Sie nach Hause kommst, riecht es immer noch überall nach Erbrochenem und Ihr Fernseher ist in Scherben. Irgendwer auf der Party hat ihn umgestoßen. Ihr Kind sagt Ihnen, dass keiner den Vorfall gesehen hat, der Täter ist unbekannt.",
+        "Ihr 16-jähriges Kind hat am Wochenende, als Sie mit Ihrem Ehepartner bei Ihrer Mutter zu Besuch waren, ohne Ihr Wissen eine Hausparty mit vielen Gästen geschmissen. Die Party ist eskaliert - als Sie nach Hause kommen, riecht es immer noch überall nach Erbrochenem und Ihr Fernseher ist in Scherben. Irgendwer auf der Party hat ihn umgestoßen. Ihr Kind sagt Ihnen, dass keiner den Vorfall gesehen hat, der Täter ist unbekannt.",
     ],
     [
         [
@@ -79,8 +79,8 @@ use_case_4 = use_case_base + [
             "float-md-start",
             "use_case_you_won",
         ],
-        "Der Fernseher war schon über 10 Jahre alt. Ohne dass Sie etwas getan hast, gab es wie aus dem Nichts ein Knacken, der Fernseher ist ausgegangen und geht nun nicht mehr an. Sie wollten allerdings sowieso demnächst einen neuen Fernseher kaufen und sind deshalb von der Situation gar nicht frustriert. Sie sehen es als einen guten Zeitpunkt, sich endlich einen neuen Fernseher anzuschaffen und wissen auch schon genau, welches Modell Sie kaufen wollen. Sie nehmen sich vor, am nächsten Tag loszugehen, um den Fernseher zu ersetzen.",
-        "Bevor Sie am Tag danach losgehen, bekommen Sie eine E-Mail und stellen fest, dass Sie eine Lotterie deiner Stadt über einen Gutschein von 500€ gewonnen haben! Sie hatten schon vor Wochen an der Lotterie teilgenommen und sie schon ganz vergessen. Die Lotterie wurde von der Stadt ausgetragen, um lokale Geschäfte in Zeiten des Internetverkaufes zu stärken und der Gutschein, den Sie gewonnen haben, ist in jedem Geschäft deiner Stadt gültig. Sie verbinden also die beiden Aktionen und machen sich auf den Weg zum lokalem Technikgeschäft, um einen Fernseher zu kaufen. Sie wissen außerdem, dass dort genau der Fernseher vorrätig ist, welchen Sie kaufen wollen.",
+        "Der Fernseher war schon über 10 Jahre alt. Ohne dass Sie etwas getan haben, gab es wie aus dem Nichts ein Knacken, der Fernseher ist ausgegangen und geht nun nicht mehr an. Sie wollten allerdings sowieso demnächst einen neuen Fernseher kaufen und sind deshalb von der Situation gar nicht frustriert. Sie sehen es als einen guten Zeitpunkt, sich endlich einen neuen Fernseher anzuschaffen und wissen auch schon genau, welches Modell Sie kaufen wollen. Sie nehmen sich vor, am nächsten Tag loszugehen, um den Fernseher zu ersetzen.",
+        "Bevor Sie am Tag danach losgehen, bekommen Sie eine E-Mail und stellen fest, dass Sie eine Lotterie Ihrer Stadt über einen Gutschein von 500€ gewonnen haben! Sie hatten schon vor Wochen an der Lotterie teilgenommen und sie schon ganz vergessen. Die Lotterie wurde von der Stadt ausgetragen, um lokale Geschäfte in Zeiten des Internetverkaufes zu stärken und der Gutschein, den Sie gewonnen haben, ist in jedem Geschäft Ihrer Stadt gültig. Sie verbinden also die beiden Aktionen und machen sich auf den Weg zum lokalem Technikgeschäft, um einen Fernseher zu kaufen. Sie wissen außerdem, dass dort genau der Fernseher vorrätig ist, welchen Sie kaufen wollen.",
     ],
     [
         [
