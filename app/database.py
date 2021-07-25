@@ -155,8 +155,8 @@ class Database:
                 CONFLICT (user_id, use_case_id, use_case_step)
             DO UPDATE
                 SET
-                    user_emotion_after_response = $6
-                    AND user_emotion_reason_after_response = $7;
+                    user_emotion_after_response = $6,
+                    user_emotion_reason_after_response = $7;
         """
         await self.connection.execute(insert_sql, user_id, use_case_id, use_case_step, user_emotion_before_response, user_emotion_reason_before_response, user_emotion_after_response, user_emotion_reason_after_response, time)
 
