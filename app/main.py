@@ -91,7 +91,7 @@ async def root(request: Request, user_id: Optional[str] = Cookie(None)):
 # show the user a guide on how to use the site
 @app.get('/guide')
 async def guide(request: Request, use_case_id: int, use_case_step: int, user_id: str = Cookie(None)):
-    estimate_time_needed = 999999
+    estimate_time_needed = 10
 
     # define params needed to build the link to the limesurvey user data collection
     params = {
@@ -204,7 +204,7 @@ async def after_use_case_emotion(request: Request, use_case_id: int, use_case_st
 
 # redirect to limesurvey
 @app.post('/afterusecaseemotiontolimsurvey')
-async def after_use_case_emotion_to_limsurvey(use_case_id: int, use_case_step: int, user_emotion: str = Form(...), user_id: str = Cookie(None)):
+async def after_use_case_emotion_to_limsurvey(use_case_id: int, use_case_step: int, user_emotion: str = Form(...), user_emotion_reason: str = Form(...), user_id: str = Cookie(None)):
     # save the new emotion in the DB in the entry for the use case
     await db.update_db_user(
         user_id=user_id,
@@ -212,6 +212,7 @@ async def after_use_case_emotion_to_limsurvey(use_case_id: int, use_case_step: i
         use_case_step=use_case_step,
         time=datetime.datetime.now(tz=datetime.timezone.utc),
         user_emotion_after_response=user_emotion,
+        user_emotion_reason_after_response=user_emotion_reason,
     )
 
     # define params needed to build the limesurvey link
@@ -277,6 +278,17 @@ async def user_comment(comment: str = Form(...), user_id: str = Cookie(None)):
     }
     redirect_path = f"/thanks?{urlencode(params)}"
     return RedirectResponse(redirect_path, status_code=303)
+
+
+# data protection info
+@app.get('/yourdata', response_class=HTMLResponse)
+async def your_data(request: Request, user_id: str = Cookie(None)):
+    return templates.TemplateResponse("your_data.html", {
+        "request": request,
+        "user_id": user_id,
+        "use_case_count": experiment_steps,
+        "use_case_count_current": await db.get_number_of_completed_use_cases(user_id),
+    })
 
 
 # set a new cookie with a new ID and redirects to home. Mostly used for testing

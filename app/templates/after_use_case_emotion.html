@@ -3,16 +3,38 @@
 {% block content %}
 
 <div class="container">
+    <p>
+        Nachdem der Mitarbeiter auf Sie reagiert hat, bekommen Sie noch einmal die Möglichkeit, Ihre emotionale Situation anzugeben. Bitte geben Sie an, inwiefern die Reaktion des Mitarbeiters ihre emotionale Situation verändert hat.    </p>
+    <hr>
+    <br>
+
+    <!-- Emotion Input Form -->
+    <!-- Source: https://github.com/nat-davydova/multisteps-form (adapted) -->
     <div class="multisteps-form">
+        <!--progress bar-->
+        <div class="row">
+            <div class="col-12 ml-auto mr-auto mb-4 align-self-center">
+                <div class="multisteps-form__progress">
+                    <button class="multisteps-form__progress-btn js-active" type="button" disabled>
+                        Emotion
+                    </button>
+                    <button class="multisteps-form__progress-btn" type="button" disabled>
+                        Grund der Emotion
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Forms -->
         <div class="row">
             <div class="col-12 col-lg-8 m-auto">
                 <form class="multisteps-form__form" action="/afterusecaseemotiontolimsurvey?use_case_id={{ usecaseid }}&use_case_step={{ usecasestep }}" method="post">
+                    <!-- Page 1 -->
                     <div class="multisteps-form__panel shadow p-4 rounded bg-white js-active" data-animation="scaleIn">
                         <h3 class="multisteps-form__title text-center">
-                            Bitte geben Sie Ihre aktuelle Emotionale Situation an
+                            Bitte geben Sie Ihre aktuelle emotionale Situation an
                         </h3>
                         <div class="multisteps-form__content">
-                            {% for emotion_tripplet in emotions %}
+                        {% for emotion_tripplet in emotions %}
                             <div class="row" style="padding-bottom: 10px; padding-top: 10px">
                                 {% for emotion, emotion_values in emotion_tripplet.items() %}
                                 <div class="col btn-group">
@@ -27,13 +49,49 @@
                                 </div>
                                 {% endfor %}
                             </div>
-                            {% endfor %}
+                        {% endfor %}
                         </div>
                         <div class="row">
                             <div class="button-row d-flex mt-4 col-12 justify-content-md-end">
-                                <button class="btn btn-primary ml-auto " type="submit">
-                                    Abschicken
+                                <button class="btn btn-dark js-btn-next" type="button">
+                                    Weiter
                                 </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Page 2 -->
+                    <div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn">
+                        <h3 class="multisteps-form__title text-center">
+                            Ist der Handel für Ihre Emotion verantwortlich?
+                        </h3>
+                        <div class="multisteps-form__content">
+                            <div class="row" style="padding-bottom: 10px; padding-top: 10px">
+                                <div class="col btn-group">
+                                    <input type="radio" class="btn-check" name="user_emotion_reason" id="retail" value="retail" autocomplete="off" required>
+                                    <label class="btn btn-outline-secondary" for="retail">
+                                        Ja
+                                        <br>
+                                        <img src="{{ url_for('static', path="retail.png") }}" alt="retail" width="80">
+                                    </label>
+                                </div>
+                                <div class="col btn-group">
+                                    <input type="radio" class="btn-check" name="user_emotion_reason" id="not_retail" value="not_retail" autocomplete="off" required>
+                                    <label class="btn btn-outline-secondary" for="not_retail">
+                                        Nein
+                                        <br>
+                                        <img src="{{ url_for('static', path="not_retail.png") }}" alt="not_retail" width="80">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="button-row d-flex mt-4 col-12 justify-content-between">
+                                    <button class="btn btn-dark js-btn-prev" type="button">
+                                        Zurück
+                                    </button>
+                                    <button class="btn btn-primary ml-auto " type="submit">
+                                        Abschicken
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -41,6 +99,7 @@
             </div>
         </div>
     </div>
+    <script src="{{ url_for('dist', path='/multi_step_form.js') }}"></script>
 
     {% if saved %}
         <div class="position-fixed top-0 end-0 p-3 align-items-center" style="z-index: 100000; margin-top: 50px;">

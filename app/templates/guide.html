@@ -3,20 +3,26 @@
 {% block content %}
 
 <div class="container">
-    <h1>Ablauf</h1>
-    <p>Dieses Experiment besteht aus mehreren Teilen und dauert insgesamt ca. {{ estimate_time_needed }} Minuten. Ihr Fortschritt wird nach Abschluss von jedem Teil gespeichert, wenn Sie eine Pause brauchen, können Sie die Website somit schließen und später weiter machen. Rufen Sie die Startseite erneut auf und klicken Sie auf "Experiment Starten!" um an der Stelle, wo Sie aufgehört haben, weiter zu machen.</p>
-    <p>Um an der Verlosung der Gutscheine teilzunehmen müssen Sie alle Teile des Experimentes bearbeiten.</p>
+    <h1>
+        Ablauf
+    </h1>
+    <p>
+        Diese experimentelle Umfrage besteht aus mehreren Teilen und dauert insgesamt ca. {{ estimate_time_needed }} Minuten. Ihr Fortschritt wird nach Abschluss von jedem Teil gespeichert, wenn Sie eine Pause brauchen, können Sie die Website somit schließen und später weiter machen. Rufen Sie die Startseite erneut auf und klicken Sie auf "Experiment starten!" um an der Stelle, wo Sie aufgehört haben, weiter zu machen. Bei Bedarf finden Sie eine Diashow mit allen Schritten weiter unten.
+    </p>
+    <p>
+        Um an der Verlosung der Gutscheine teilzunehmen, müssen Sie alle Teile der experimentellen Umfrage bearbeiten.    </p>
     <div class="d-flex justify-content-center" style="margin-top: 50px">
         <a class="btn btn-primary btn-lg" href="{{ use_case_url }}" type="button">
-            Ich habe den Ablauf verstanden!
+            Beginnen
         </a>
     </div>
     <br>
     <hr>
     <br>
-    <h3>Visuelles Beispiel</h3>
-    <p> Bei Bedarf finden Sie in der folgenden Diashow eine visuelle Anleitung über den Vorgang des Experimentes.</p>
 
+    <p>
+        Diese Diashow bietet eine Übersicht zur Vorgehensweise.
+    </p>
     <!-- Carousel Guide -->
     <div class="border border-dark border-5">
         <div id="carouselExampleCaptions" class="carousel slide carousel-dark" data-bs-ride="carousel" data-bs-interval="false">
@@ -25,6 +31,7 @@
                 <button class="bg-primary" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
                 <button class="bg-primary" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
                 <button class="bg-primary" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                <button class="bg-primary" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4" aria-label="Slide 5"></button>
             </div>
             <div class="carousel-inner">
                 <div class="carousel-item active">
@@ -55,6 +62,15 @@
                     </div>
                 </div>
                 <div class="carousel-item">
+                    <img src="{{ url_for('static', path='/guide_interface.png') }}" class="d-block w-100" alt="guide_evaluation">
+                    <div class="carousel-caption d-none d-md-block">
+                        <div class="bg-secondary rounded p-2">
+                            <p class="no-pad-no-marg">Nun wird erneut Ihre Emotion abgefragt.</p>
+                            <p class="no-pad-no-marg">Bitte bewerten Sie zusätzlich dazu die Oberfläche.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
                     <img src="{{ url_for('static', path='/guide_thanks.png') }}" class="d-block w-100" alt="guide_repeat">
                     <div class="carousel-caption d-none d-md-block">
                         <div class="bg-secondary rounded p-2">
@@ -74,6 +90,12 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
+    </div>
+
+    <div class="d-flex justify-content-center" style="margin-top: 50px">
+        <a class="btn btn-primary btn-lg" href="{{ use_case_url }}" type="button">
+            Beginnen
+        </a>
     </div>
 </div>
 

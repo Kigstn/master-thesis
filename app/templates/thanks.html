@@ -3,11 +3,15 @@
 {% block content %}
 
 <div class="container">
-    <div class="container-fluid">
-        <img class="img-responsive rounded" src="{{ url_for('static', path='/thanks.png') }}" alt="Danke">
-    </div>
-    <p> Herzlichen Dank für Ihre Teilnahme an diesem Experiment!</p>
-    <p> Fragen oder Anmerkungen können Sie hier angeben, oder mir auch gerne in einer Email schreiben. Meine Adresse finden Sie am unteren Rand der Website.</p>
+    <p class="fs-1 fw-bold text-primary">
+        Alles geschafft - Vielen Dank!
+    </p>
+    <hr>
+    <p>
+        Herzlichen Dank für Ihre Teilnahme!
+    </p>
+    <p>
+        Fragen oder Anmerkungen können Sie hier angeben oder mir auch gerne in einer E-Mail schreiben. Meine Adresse finden Sie am unteren Rand der Website.    </p>
     <form action="/comment" method="post">
         <div class="mb-3">
             <textarea class="form-control" name="comment" rows="3" placeholder="Bei Wunsch können hier Anmerkungen gemacht werden" required></textarea>
@@ -19,14 +23,19 @@
     <br>
     <hr>
     <br>
-    <h3> Freiwillige Gutschein Verlosung </h3>
-    <p> Die Teilnehmer die alle Teile des Experimentes bearbeitet haben, können an einem Gewinnspiel teilnehmen.</p>
-    <p> Verlost werden fünf Amazon Gutscheine im Wert von jeweils 10€. Wenn Sie an der Verlosung teilnehmen wollen, geben Sie bitte Ihre Email Addresse an.</p>
+    <h3>
+        Freiwillige Gutschein Verlosung
+    </h3>
+    <p>
+        Die Teilnehmer, die alle Teile der experimentellen Umfrage bearbeitet haben, können an einem Gewinnspiel teilnehmen.
+    </p>
+    <p>
+        Verlost werden fünf Amazon-Gutscheine im Wert von jeweils 10€. Wenn Sie an der Verlosung teilnehmen wollen, geben Sie bitte Ihre E-Mail Adresse an.    </p>
     <form action="/giveawayemail" method="post">
         <div class="mb-3">
             <input name="email" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Email Addresse" required>
             <div id="emailHelp" class="form-text">
-                Ihre Email wird nach der Verlosung sofort gelöscht und zu keinen anderem Zweck verwendet
+                Ihre E-Mail wird nach der Verlosung sofort gelöscht und zu keinem anderem Zweck verwendet.
             </div>
         </div>
         <button type="submit" class="btn btn-primary">
