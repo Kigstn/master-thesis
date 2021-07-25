@@ -10,7 +10,7 @@ use_case_base = [
 ]
 
 use_case_1 = use_case_base + [
-    "Der Fernseher war nur wenige Monate alt. Ohne das Sie etwas getan haben, gab es wie aus dem Nichts es ein Knacken, der Fernseher ist ausgegangen und geht nun nicht mehr an.",
+    "Der Fernseher war nur wenige Monate alt. Ohne das Sie etwas getan haben, gab es wie aus dem Nichts ein Knacken, der Fernseher ist ausgegangen und geht nun nicht mehr an.",
     "Sie gehen also auf die Website des lokalen Technikgeschäftes und bestellen online einen Fernseher. Der Fernseher soll direkt am nächsten Tag zugestellt werden, es gibt also theoretisch sechs Tage Buffer bis zum Eröffnungsspiel.",
     [
         [
@@ -60,7 +60,7 @@ use_case_3 = use_case_base + [
             "float-md-start",
             "use_case_store",
         ],
-        "Der Fernseher war schon über 10 Jahre alt. Ohne dass Sie etwas getan haben, gab es wie aus dem Nichts es ein Knacken, der Fernseher ist ausgegangen und geht nun nicht mehr an. Sie wollten allerdings sowieso demnächst einen neuen Fernseher kaufen und sind deshalb von der Situation gar nicht frustriert. Sie sehen es als einen guten Zeitpunkt, sich endlich einen neuen Fernseher anzuschaffen. Sie gehen also zum lokalem Technikgeschäft um einen Fernseher zu kaufen.",
+        "Der Fernseher war schon über 10 Jahre alt. Ohne dass Sie etwas getan haben, gab es wie aus dem Nichts es ein Knacken, der Fernseher ist ausgegangen und geht nun nicht mehr an. Sie wollten allerdings sowieso demnächst einen neuen Fernseher kaufen und sind deshalb von der Situation gar nicht frustriert. Sie sehen es als einen guten Zeitpunkt, sich endlich einen neuen Fernseher anzuschaffen. Sie gehen also zum lokalem Technikgeschäft, um einen Fernseher zu kaufen.",
     ],
     [
         [
@@ -79,8 +79,8 @@ use_case_4 = use_case_base + [
             "float-md-start",
             "use_case_you_won",
         ],
-        "Der Fernseher war schon über 10 Jahre alt. Ohne dass Sie etwas getan hast, gab es wie aus dem Nichts es ein Knacken, der Fernseher ist ausgegangen und geht nun nicht mehr an. Sie wollten allerdings sowieso demnächst einen neuen Fernseher kaufen und sind deshalb von der Situation gar nicht frustriert. Sie sehen es als einen guten Zeitpunkt, sich endlich einen neuen Fernseher anzuschaffen und wissen auch schon genau, welches Modell Sie kaufen wollen. Sie nehmen sich vor, am nächsten Tag loszugehen, um den Fernseher zu ersetzen.",
-        "Bevor Sie am Tag danach losgehen, bekommen Sie eine E-Mail und stellen fest, dass Sie eine Lotterie deiner Stadt über einen Gutschein von 500€ gewonnen haben! Sie hatten schon vor Wochen an der Lotterie teilgenommen und sie schon ganz vergessen. Die Lotterie wurde von der Stadt ausgetragen, um lokale Geschäfte in Zeiten des Internetverkaufes zu stärken und der Gutschein, den Sie gewonnen haben, ist in jedem Geschäft deiner Stadt gültig. Sie verbinden also die beiden Aktionen und machen sich auf den Weg zum lokalem Technikgeschäft um einen Fernseher zu kaufen. Sie wissen außerdem, dass dort genau der Fernseher vorrätig ist, welchen Sie kaufen wollen.",
+        "Der Fernseher war schon über 10 Jahre alt. Ohne dass Sie etwas getan hast, gab es wie aus dem Nichts ein Knacken, der Fernseher ist ausgegangen und geht nun nicht mehr an. Sie wollten allerdings sowieso demnächst einen neuen Fernseher kaufen und sind deshalb von der Situation gar nicht frustriert. Sie sehen es als einen guten Zeitpunkt, sich endlich einen neuen Fernseher anzuschaffen und wissen auch schon genau, welches Modell Sie kaufen wollen. Sie nehmen sich vor, am nächsten Tag loszugehen, um den Fernseher zu ersetzen.",
+        "Bevor Sie am Tag danach losgehen, bekommen Sie eine E-Mail und stellen fest, dass Sie eine Lotterie deiner Stadt über einen Gutschein von 500€ gewonnen haben! Sie hatten schon vor Wochen an der Lotterie teilgenommen und sie schon ganz vergessen. Die Lotterie wurde von der Stadt ausgetragen, um lokale Geschäfte in Zeiten des Internetverkaufes zu stärken und der Gutschein, den Sie gewonnen haben, ist in jedem Geschäft deiner Stadt gültig. Sie verbinden also die beiden Aktionen und machen sich auf den Weg zum lokalem Technikgeschäft, um einen Fernseher zu kaufen. Sie wissen außerdem, dass dort genau der Fernseher vorrätig ist, welchen Sie kaufen wollen.",
     ],
     [
         [
