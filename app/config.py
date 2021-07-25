@@ -24,7 +24,7 @@ use_case_1 = use_case_base + [
             "float-md-end",
             "use_case_one_day_left",
         ],
-        "Auch das stimmt aber nicht ganz. Einen Tag vor dem Spiel trifft die Versandbestätigung ein und der Fernseher wird noch am gleichen Tag zugestellt. Allerdings funktioniert der Fernseher nicht, obwohl er von außen unbeschädigt wirkt. Sie geben den kaputten Fernseher online zurück. Da es kein anderes Technikgeschäft in ihrem Umkreis gibt und am nächsten Tag schon das Eröffnungsspiel ist, gehen Sie zum Laden, um hoffentlich eine Fernseher zu finden.",
+        "Auch das stimmt aber nicht ganz. Einen Tag vor dem Spiel trifft die Versandbestätigung ein und der Fernseher wird noch am gleichen Tag zugestellt. Allerdings funktioniert der Fernseher nicht, obwohl er von außen unbeschädigt wirkt. Sie geben den kaputten Fernseher online zurück. Da es kein anderes Technikgeschäft in ihrem Umkreis gibt und am nächsten Tag schon das Eröffnungsspiel ist, gehen Sie zum Laden, um hoffentlich noch rechtzeitig einen Fernseher zu finden.",
     ],
     [
         [
