@@ -60,18 +60,18 @@ use_case_3 = use_case_base + [
             "float-md-start",
             "use_case_store",
         ],
-        "Der Fernseher war schon über 10 Jahre alt. Ohne dass Sie etwas getan haben, gab es wie aus dem Nichts es ein Knacken, der Fernseher ist ausgegangen und geht nun nicht mehr an. Sie wollten allerdings sowieso demnächst einen neuen Fernseher kaufen und sind deshalb von der Situation gar nicht frustriert. Sie sehen es als einen guten Zeitpunkt, sich endlich einen neuen Fernseher anzuschaffen. Sie rufen also das lokalem Technikgeschäft an, um sich nach dem Fernseher Sortiment zu erkundigen.",
+        "Der Fernseher war schon über 10 Jahre alt. Ohne dass Sie etwas getan haben, gab es wie aus dem Nichts es ein Knacken, der Fernseher ist ausgegangen und geht nun nicht mehr an. Sie wollten allerdings sowieso demnächst einen neuen Fernseher kaufen und sind deshalb von der Situation gar nicht frustriert. Sie sehen es als einen guten Zeitpunkt, sich endlich einen neuen Fernseher anzuschaffen. Sie rufen also das lokale Technikgeschäft an, um sich nach dem Fernsehersortiment zu erkundigen.",
     ],
     [
         [
             "float-md-end",
             "use_case_sale",
         ],
-        "Sie ereichen sofort einen Mitarbeiter. Der Mitarbeiter ist sehr freundlich und nimmt sich viel Zeit, Ihnen die Feinheiten von verschiedenen Fernsehern zu erklären. Außerdem schlägt der Mitarbeiter Ihnen vor, einen bestimmten Fernseher zu kaufen, weil dieser die besten Eigenschaften hat und zusätzlich gerade im Angebot ist. Der Mitarbeiter sagt Ihnen zudem, dass der Laden aktuell eine Aktion hat, wo Kunden beim Kauf eines Elektrogerätes auf Wunsch eine kostenlose Lieferung, Montage und Einrichtung des Gerätes bekommen. Das alte Gerät kann dann außerdem gleich mitgenommen werden. Für Sie kommt das genau richtig, da ein Fernseher keineswegs in Ihr kleines Auto passen wird.",
+        "Sie ereichen sofort einen Mitarbeiter. Der Mitarbeiter ist sehr freundlich und nimmt sich viel Zeit, Ihnen die Feinheiten von verschiedenen Fernsehmodellen zu erklären. Außerdem schlägt der Mitarbeiter Ihnen vor, einen bestimmten Fernseher zu kaufen, weil dieser die für ihren Bedarf besten Eigenschaften hat und zusätzlich gerade im Angebot ist. Der Mitarbeiter sagt Ihnen zudem, dass der Laden aktuell eine Aktion hat, wo Kunden beim Kauf eines Elektrogerätes auf Wunsch eine kostenlose Lieferung, Montage und Einrichtung des Gerätes bekommen. Das alte Gerät kann außerdem gleich mitgenommen werden. Für Sie kommt das genau richtig, da der gewünschte Fernseher keineswegs in Ihr Auto passen wird.",
         "Sie fühlen sich wirklich sehr gut beraten und haben vor, den Ihnen empfohlenen Fernseher zu kaufen. Sie machen sich auf dem Weg zum Laden.",
     ],
     "Im Laden angekommen gehen Sie zu einem Mitarbeiter und sagen:",
-    "Hallo. Mein Fernseher ist gerade kaputt gegangen. Ich brauche bis in spätestens 7 Tagen einen funktionierenden Fernseher. Ich möchte gerne diesen bestimmten Fernseher (Du zeigst auf den gewünschten Fernseher).",
+    "Hallo. Mein Fernseher ist gerade kaputt gegangen. Ich brauche bis in spätestens 7 Tagen einen funktionierenden Fernseher. Ich möchte gerne diesen bestimmten Fernseher (Sie zeigen auf den gewünschten Fernseher).",
 ]
 use_case_4 = use_case_base + [
     [
@@ -89,7 +89,7 @@ use_case_4 = use_case_base + [
         ],
         "Im Laden angekommen gehen Sie zu einem Mitarbeiter, um den Fernseher zu kaufen und sagen:",
     ],
-    "Hallo. Mein Fernseher ist gerade kaputt gegangen. Ich brauche bis in spätestens 7 Tagen einen funktionierenden Fernseher. Ich möchte gerne diesen bestimmten Fernseher (Du zeigst auf den gewünschten Fernseher). Ich habe außerdem einen Gutschein, welchen ich gerne einlösen möchte.",
+    "Hallo. Mein Fernseher ist gerade kaputt gegangen. Ich brauche bis in spätestens 7 Tagen einen funktionierenden Fernseher. Ich möchte gerne diesen bestimmten Fernseher (Sie zeigen auf den gewünschten Fernseher). Ich habe außerdem einen Gutschein, welchen ich gerne einlösen möchte.",
 ]
 
 use_case_dict = {
