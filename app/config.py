@@ -10,8 +10,8 @@ use_case_base = [
 ]
 
 use_case_1 = use_case_base + [
-    "Der Fernseher war nur wenige Monate alt. Ohne das Sie etwas getan haben, gab es wie aus dem Nichts ein Knacken, der Fernseher ist ausgegangen und geht nun nicht mehr an.",
-    "Sie gehen also auf die Website des lokalen Technikgeschäftes und bestellen online einen Fernseher. Der Fernseher soll direkt am nächsten Tag zugestellt werden, es gibt also theoretisch sechs Tage Buffer bis zum Eröffnungsspiel.",
+    "Die Garantie des Fernseher ist erst wenige Wochen abgelaufen. Ohne das Sie etwas getan haben, gab es wie aus dem Nichts ein Knacken, der Fernseher ist ausgegangen und geht nun nicht mehr an.",
+    "Sie gehen also auf die Website des lokalen Technikgeschäftes und bestellen online einen Fernseher. Der Fernseher soll direkt am nächsten Tag zugestellt werden, es gibt also theoretisch sechs Tage Puffer bis zum Eröffnungsspiel.",
     [
         [
             "float-md-start",
@@ -24,7 +24,7 @@ use_case_1 = use_case_base + [
             "float-md-end",
             "use_case_one_day_left",
         ],
-        "Auch das stimmt aber nicht ganz. Einen Tag vor dem Spiel trifft die Versandbestätigung ein und der Fernseher wird noch am gleichen Tag zugestellt. Allerdings funktioniert der Fernseher nicht, obwohl er von außerhalb unbeschadet wirkt. Da Sie am Telefon so lange in der Warteschleife warten mussten und am nächsten Tag schon das Eröffnungsspiel ist, gehen Sie dieses Mal lieber zum Laden, um hoffentlich eine Lösung zu finden.",
+        "Auch das stimmt aber nicht ganz. Einen Tag vor dem Spiel trifft die Versandbestätigung ein und der Fernseher wird noch am gleichen Tag zugestellt. Allerdings funktioniert der Fernseher nicht, obwohl er von außen unbeschädigt wirkt. Da Sie am Telefon so lange in der Warteschleife warten mussten und am nächsten Tag schon das Eröffnungsspiel ist, gehen Sie dieses Mal lieber zum Laden, um hoffentlich eine Lösung zu finden.",
     ],
     [
         [
@@ -32,7 +32,7 @@ use_case_1 = use_case_base + [
             "use_case_queue",
         ],
         "Im Laden angekommen hat nur einer der Serviceschalter offen und dieser hat eine sehr lange Schlange. Bis Sie dran sind, dauert es noch mal eine halbe Stunde.",
-        "Als Sie dran bist, sagen Sie zu dem Mitarbeiter:",
+        "Als Sie dran sind, sagen Sie zu dem Mitarbeiter:",
     ],
     "Hallo. Mein Fernseher ist neulich kaputt gegangen. Deshalb habe ich letzte Woche bei diesem Laden online einen neuen Fernseher bestellt. Mir wurde gesagt, die Lieferung dauert nur einen Tag, es hat aber sechs Tage gedauert, bis der Fernseher überhaupt versendet worden ist. Der Fernseher ist außerdem kaputt angekommen. Ich habe Zeitdruck und bis morgen brauche ich unbedingt einen funktionierenden Fernseher!",
 ]
@@ -60,17 +60,17 @@ use_case_3 = use_case_base + [
             "float-md-start",
             "use_case_store",
         ],
-        "Der Fernseher war schon über 10 Jahre alt. Ohne dass Sie etwas getan haben, gab es wie aus dem Nichts es ein Knacken, der Fernseher ist ausgegangen und geht nun nicht mehr an. Sie wollten allerdings sowieso demnächst einen neuen Fernseher kaufen und sind deshalb von der Situation gar nicht frustriert. Sie sehen es als einen guten Zeitpunkt, sich endlich einen neuen Fernseher anzuschaffen. Sie gehen also zum lokalem Technikgeschäft, um einen Fernseher zu kaufen.",
+        "Der Fernseher war schon über 10 Jahre alt. Ohne dass Sie etwas getan haben, gab es wie aus dem Nichts es ein Knacken, der Fernseher ist ausgegangen und geht nun nicht mehr an. Sie wollten allerdings sowieso demnächst einen neuen Fernseher kaufen und sind deshalb von der Situation gar nicht frustriert. Sie sehen es als einen guten Zeitpunkt, sich endlich einen neuen Fernseher anzuschaffen. Sie rufen also das lokalem Technikgeschäft an, um sich nach dem Fernseher Sortiment zu erkundigen.",
     ],
     [
         [
             "float-md-end",
             "use_case_sale",
         ],
-        "Im Laden angekommen gehen Sie zu einem Mitarbeiter, um sich beraten zu lassen. Der Mitarbeiter ist sehr freundlich und nimmt sich viel Zeit, Ihnen die Feinheiten von verschiedenen Fernsehern zu erklären. Außerdem schlägt der Mitarbeiter Ihnen vor, einen bestimmten Fernseher zu kaufen, weil dieser die besten Eigenschaften hat und zusätzlich gerade im Angebot ist. Der Mitarbeiter sagt Ihnen zudem, dass der Laden aktuell eine Aktion hat, wo Kunden beim Kauf eines Elektrogerätes auf Wunsch eine kostenlose Lieferung, Montage und Einrichtung des Gerätes bekommen. Das alte Gerät kann dann außerdem gleich mitgenommen werden. Für Sie kommt das genau richtig, da ein Fernseher keineswegs in Ihr kleines Auto passen wird.",
-        "Sie fühlen sich wirklich sehr gut beraten und haben vor, den Ihnen empfohlenen Fernseher zu kaufen. Der Mitarbeiter verweißt Sie für den Kauf auf einen zuständigen Kollegen.",
+        "Sie ereichen sofort einen Mitarbeiter. Der Mitarbeiter ist sehr freundlich und nimmt sich viel Zeit, Ihnen die Feinheiten von verschiedenen Fernsehern zu erklären. Außerdem schlägt der Mitarbeiter Ihnen vor, einen bestimmten Fernseher zu kaufen, weil dieser die besten Eigenschaften hat und zusätzlich gerade im Angebot ist. Der Mitarbeiter sagt Ihnen zudem, dass der Laden aktuell eine Aktion hat, wo Kunden beim Kauf eines Elektrogerätes auf Wunsch eine kostenlose Lieferung, Montage und Einrichtung des Gerätes bekommen. Das alte Gerät kann dann außerdem gleich mitgenommen werden. Für Sie kommt das genau richtig, da ein Fernseher keineswegs in Ihr kleines Auto passen wird.",
+        "Sie fühlen sich wirklich sehr gut beraten und haben vor, den Ihnen empfohlenen Fernseher zu kaufen. Sie machen sich auf dem Weg zum Laden.",
     ],
-    "Sie gehen also zu dem Mitarbeiter und sagen:",
+    "Im Laden angekommen gehen Sie zu einem Mitarbeiter und sagen:",
     "Hallo. Mein Fernseher ist gerade kaputt gegangen. Ich brauche bis in spätestens 7 Tagen einen funktionierenden Fernseher. Ich möchte gerne diesen bestimmten Fernseher (Du zeigst auf den gewünschten Fernseher).",
 ]
 use_case_4 = use_case_base + [
