@@ -45,8 +45,10 @@ class Database:
             FROM 
                 use_cases
             WHERE
-                use_case_id != 0
-                AND use_case_id != -1;
+                user_emotion_before_response IS NOT NULL
+                AND user_emotion_reason_before_response IS NOT NULL
+                AND user_emotion_after_response IS NOT NULL
+                AND user_emotion_reason_after_response IS NOT NULL;
         """
         use_case_completion_status = await self.connection.fetch(select_sql)
 
