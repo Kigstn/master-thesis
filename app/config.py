@@ -10,7 +10,7 @@ use_case_base = [
 ]
 
 use_case_1 = use_case_base + [
-    "Die Garantie des Fernseher ist erst wenige Wochen abgelaufen. Ohne das Sie etwas getan haben, gab es wie aus dem Nichts ein Knacken, der Fernseher ist ausgegangen und geht nun nicht mehr an.",
+    "Die Garantie des Fernseher ist erst wenige Wochen abgelaufen. Ohne dass Sie etwas getan haben, gab es wie aus dem Nichts ein Knacken, der Fernseher ist ausgegangen und geht nun nicht mehr an.",
     "Sie gehen also auf die Website des lokalen Technikgeschäftes und bestellen online einen Fernseher. Der Fernseher soll direkt am nächsten Tag zugestellt werden, es gibt also theoretisch sechs Tage Puffer bis zum Eröffnungsspiel.",
     [
         [
@@ -34,7 +34,7 @@ use_case_1 = use_case_base + [
         "Im Laden angekommen hat nur einer der Serviceschalter offen und dieser hat eine sehr lange Schlange. Ansonsten ist kein Mitarbeiter zu sehen, deshalb stellen Sie sich an der Schlange an. Bis Sie dran sind, dauert es noch mal eine halbe Stunde.",
         "Als Sie dran sind, sagen Sie zu dem Mitarbeiter:",
     ],
-    "Hallo. Mein Fernseher ist neulich kaputt gegangen. Deshalb habe ich letzte Woche bei diesem Laden online einen neuen Fernseher bestellt. Mir wurde gesagt, die Lieferung dauert nur einen Tag, es hat aber sechs Tage gedauert, bis der Fernseher überhaupt versendet worden ist. Der Fernseher ist außerdem kaputt angekommen, weshalb ich ihn zurück gegeben habe. Ich habe Zeitdruck und bis morgen brauche ich unbedingt einen funktionierenden Fernseher!",
+    "Hallo. Mein Fernseher ist neulich kaputt gegangen. Deshalb habe ich letzte Woche bei diesem Laden online einen neuen Fernseher bestellt. Mir wurde gesagt, die Lieferung dauert nur einen Tag, es hat aber sechs Tage gedauert, bis der Fernseher überhaupt versendet worden ist. Der Fernseher ist außerdem kaputt angekommen, weshalb ich ihn zurückgegeben habe. Ich habe Zeitdruck und bis morgen brauche ich unbedingt einen funktionierenden Fernseher!",
 ]
 use_case_2 = use_case_base + [
     [
@@ -67,7 +67,7 @@ use_case_3 = use_case_base + [
             "float-md-end",
             "use_case_sale",
         ],
-        "Sie ereichen sofort einen Mitarbeiter. Der Mitarbeiter ist sehr freundlich und nimmt sich viel Zeit, Ihnen die Feinheiten von verschiedenen Fernsehmodellen zu erklären. Außerdem schlägt der Mitarbeiter Ihnen vor, einen bestimmten Fernseher zu kaufen, weil dieser die für ihren Bedarf besten Eigenschaften hat und zusätzlich gerade im Angebot ist. Der Mitarbeiter sagt Ihnen zudem, dass der Laden aktuell eine Aktion hat, wo Kunden beim Kauf eines Elektrogerätes auf Wunsch eine kostenlose Lieferung, Montage und Einrichtung des Gerätes bekommen. Das alte Gerät kann außerdem gleich mitgenommen werden. Für Sie kommt das genau richtig, da der gewünschte Fernseher keineswegs in Ihr Auto passen wird.",
+        "Sie erreichen sofort einen Mitarbeiter. Der Mitarbeiter ist sehr freundlich und nimmt sich viel Zeit, Ihnen die Feinheiten von verschiedenen Fernsehmodellen zu erklären. Außerdem schlägt der Mitarbeiter Ihnen vor, einen bestimmten Fernseher zu kaufen, weil dieser die für ihren Bedarf besten Eigenschaften hat und zusätzlich gerade im Angebot ist. Der Mitarbeiter sagt Ihnen zudem, dass der Laden aktuell eine Aktion hat, wo Kunden beim Kauf eines Elektrogerätes auf Wunsch eine kostenlose Lieferung, Montage und Einrichtung des Gerätes bekommen. Das alte Gerät kann außerdem gleich mitgenommen werden. Für Sie kommt das genau richtig, da der gewünschte Fernseher keineswegs in Ihr Auto passen wird.",
         "Sie fühlen sich wirklich sehr gut beraten und haben vor, den Ihnen empfohlenen Fernseher zu kaufen. Sie machen sich auf dem Weg zum Laden.",
     ],
     "Im Laden angekommen gehen Sie zu einem Mitarbeiter und sagen:",
