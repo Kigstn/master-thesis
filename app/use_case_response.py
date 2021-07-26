@@ -4,7 +4,7 @@ use_case_response = {
             "Das kann ja mal passieren.",
             "Wir haben dasselbe Modell gerade nicht vorliegend, aber ich könnte ich es für Sie bestellen. Dies würde zwei bis drei Werktage dauern. Ansonsten können Sie sich einen anderen Fernseher hier aussuchen und gleich mitnehmen. Zum Beispiel dieser Fernseher (zeigt auf einen Fernseher). Der ist aber etwas schlechter ausgestattet wie der von Ihnen zuvor bestellte Fernseher.",
             "Für einen Aufpreis übernehmen wir außerdem die Lieferung, Montage und Einrichtung. Kann ich Sie für eine verlängerte Garantie oder einen passenden Receiver interessieren?",
-            "Wenn Sie noch Zeit zum Überlegen brauchen, muss ich Sie bitte das wo anders zu tun, denn hinter Ihnen ist schon eine Schlange.",
+            "Wenn Sie noch Zeit zum Überlegen brauchen, muss ich Sie bitten das wo anders zu tun, denn hinter Ihnen ist schon eine Schlange.",
         ],
         2: [
             "Hallo. Erst einmal tut es mir leid, dass Ihnen das passiert ist, ich verstehe ihre Frustration.",
@@ -40,7 +40,7 @@ use_case_response = {
     4: {
         1: [
             "Den Gutschein können Sie hier einlösen. Ich kann Ihnen dieses Modell verkaufen, allerdings nicht genau das Ausstellungsstück. Dieses benötigen wir zur Vorführung des Fernsehers. Von diesem Modell haben wir keins mehr auf Lager, ich kann Ihnen dieses Modell allerdings bestellen. Einen anderen Fernseher könnten Sie gleich mitnehmen, aber es ist ja Ihre Sache, was Sie machen wollen.",
-            "Wenn Sie noch Zeit zum Überlegen brauchen, muss ich Sie bitte das wo anders zu tun, denn hinter Ihnen ist schon eine Schlange.",
+            "Wenn Sie noch Zeit zum Überlegen brauchen, muss ich Sie bitten das wo anders zu tun, denn hinter Ihnen ist schon eine Schlange.",
         ],
         2: [
             "Schönen guten Tag.",
