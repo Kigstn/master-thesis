@@ -49,7 +49,7 @@ use_case_2 = use_case_base + [
             "float-md-end",
             "use_case_store",
         ],
-        "Nachdem Sie die Situation gesehen haben, wird es Ihnen zu viel und Sie verlassen das Haus, um sich zu beruhigen. Weil Ihnen der kaputte Fernseher und das kommende Eröffnungsspiel die ganze Zeit im Kopf schweben, nutzen Sie die Gelegenheit und wollen gleich einen neuen Fernseher kaufen. Sie gehen also zum lokalem Technikgeschäft, um einen Fernseher zu kaufen.",
+        "Nachdem Sie die Situation gesehen haben, wird es Ihnen zu viel und Sie verlassen das Haus. Weil Ihnen der kaputte Fernseher und das kommende Eröffnungsspiel die ganze Zeit im Kopf schweben, nutzen Sie die Gelegenheit und wollen gleich einen neuen Fernseher kaufen. Sie gehen also zum lokalem Technikgeschäft, um einen Fernseher zu kaufen.",
         "Dort angekommen gehen Sie zu einem Mitarbeiter und sagen:",
      ],
     "Hallo. Mein Fernseher ist gerade kaputt gegangen. Ich brauche bis in spätestens 7 Tagen einen funktionierenden Fernseher.",
@@ -60,7 +60,7 @@ use_case_3 = use_case_base + [
             "float-md-start",
             "use_case_store",
         ],
-        "Der Fernseher war schon über 10 Jahre alt. Ohne dass Sie etwas getan haben, gab es wie aus dem Nichts es ein Knacken, der Fernseher ist ausgegangen und geht nun nicht mehr an. Sie wollten allerdings sowieso demnächst einen neuen Fernseher kaufen und sind deshalb von der Situation gar nicht frustriert. Sie sehen es als einen guten Zeitpunkt, sich endlich einen neuen Fernseher anzuschaffen. Sie rufen also das lokale Technikgeschäft an, um sich nach dem Fernsehersortiment zu erkundigen.",
+        "Der Fernseher war schon über 10 Jahre alt. Ohne dass Sie etwas getan haben, gab es wie aus dem Nichts ein Knacken, der Fernseher ist ausgegangen und geht nun nicht mehr an. Sie wollten allerdings sowieso demnächst einen neuen Fernseher kaufen und sind deshalb von der Situation gar nicht frustriert. Sie sehen es als einen guten Zeitpunkt, sich endlich einen neuen Fernseher anzuschaffen. Sie rufen also das lokale Technikgeschäft an, um sich nach dem Fernsehersortiment zu erkundigen.",
     ],
     [
         [
